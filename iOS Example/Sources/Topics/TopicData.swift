@@ -7,7 +7,7 @@ final class TopicData: ObservableObject {
     @Published var connectedState = false
     
     init() {
-        Swafka.subscribe( self as AnyObject , to: Connectivity.self, thread: .main) { topic in
+        Swafka.shared.subscribe( self as AnyObject , to: Connectivity.self, thread: .main) { topic in
             switch topic {
             case .connected:
                 print("CONNNECTIVITY SUBSCRIBER 1 Completion: Connected ")
@@ -19,7 +19,7 @@ final class TopicData: ObservableObject {
         }
         
         
-        Swafka.subscribe( self as AnyObject , to: ManipulatePrice.self, thread: .main) { topic in
+        Swafka.shared.subscribe( self as AnyObject , to: ManipulatePrice.self, thread: .main) { topic in
             switch topic {
             case .increase:
                 print("ManipulatePrice SUBSCRIBER 1 Completion: increase ")
@@ -36,13 +36,11 @@ final class TopicData: ObservableObject {
             }
         }
         
-        Swafka.subscribe( self as AnyObject, to: StockTopic.self, thread: .main) { topic in
+        Swafka.shared.subscribe( self as AnyObject, to: StockTopic.self, thread: .main) { topic in
             if let indexOfStockToUpdate = self.stocks.firstIndex(where: {$0.name == topic.name }) {
                 self.stocks[indexOfStockToUpdate].price = topic.price
             }
         }
-        
-        URLSession.shared
     }
 }
 
@@ -51,7 +49,7 @@ public func initStockUpdates(context: AnyObject) {
     var price = 123.00
     
     _ =  Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (timer) in
-        Swafka.publish(topic: StockTopic.init(name: "VTL", price: price))
+        Swafka.shared.publish(topic: StockTopic.init(name: "VTL", price: price))
         price += 1
     }
 }

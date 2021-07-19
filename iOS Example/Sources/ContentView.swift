@@ -41,21 +41,6 @@ struct CircleImage: View {
     }
 }
 
-
-struct SwiftUISwafka: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-//        return Swafka()
-        print("SwiftUISwafka")
-        print(Swafka.getAllTopics())
-        return UIView()
-    }
-
-    func updateUIView(_ uiView: UIView, context: Context) {
-        
-        
-    }
-}
-
 struct ContentView: View {
     var body: some View {
         VStack(alignment: .center) {

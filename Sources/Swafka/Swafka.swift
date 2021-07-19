@@ -33,7 +33,7 @@ public enum Thread {
 
 public final class Swafka  {
     
-    static let shared: Swafka = {
+    public static let shared: Swafka = {
         let instance = Swafka()
         return instance
     }()

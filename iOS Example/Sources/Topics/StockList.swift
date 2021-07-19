@@ -50,7 +50,7 @@ struct MockDataStreamButton: View {
         VStack {
             HStack {
                 Button(action: {
-                    Swafka.publish(topic: ManipulatePrice.increase)
+                    Swafka.shared.publish(topic: ManipulatePrice.increase)
                 }) {
                     Text("Increase Price")
                         .font(.headline)
@@ -63,7 +63,7 @@ struct MockDataStreamButton: View {
                 
                 Spacer()
                 Button(action: {
-                    Swafka.publish(topic: ManipulatePrice.decrease)
+                    Swafka.shared.publish(topic: ManipulatePrice.decrease)
                 }) {
                     Text("Decrease Price")
                         .font(.headline)
