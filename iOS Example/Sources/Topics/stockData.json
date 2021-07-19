@@ -1,0 +1,151 @@
+[{
+  "id": 1,
+  "name": "VTL",
+  "price": 498.27,
+  "inWatchlist": true
+}, {
+  "id": 2,
+  "name": "DD^A",
+  "price": 47.18,
+  "inWatchlist": true
+}, {
+  "id": 3,
+  "name": "ENTA",
+  "price": 386.7,
+  "inWatchlist": false
+}, {
+  "id": 4,
+  "name": "ESES",
+  "price": 343.21,
+  "inWatchlist": false
+}, {
+  "id": 5,
+  "name": "STWD",
+  "price": 775.01,
+  "inWatchlist": true
+}, {
+  "id": 6,
+  "name": "OPOF",
+  "price": 477.09,
+  "inWatchlist": true
+}, {
+  "id": 7,
+  "name": "AGO",
+  "price": 867.24,
+  "inWatchlist": true
+}, {
+  "id": 8,
+  "name": "ASRVP",
+  "price": 244.02,
+  "inWatchlist": true
+}, {
+  "id": 9,
+  "name": "BPT",
+  "price": 848.87,
+  "inWatchlist": false
+}, {
+  "id": 10,
+  "name": "PDBC",
+  "price": 529.72,
+  "inWatchlist": false
+}, {
+  "id": 11,
+  "name": "TRCB",
+  "price": 784.33,
+  "inWatchlist": true
+}, {
+  "id": 12,
+  "name": "MFA",
+  "price": 693.71,
+  "inWatchlist": true
+}, {
+  "id": 13,
+  "name": "SAMG",
+  "price": 161.5,
+  "inWatchlist": false
+}, {
+  "id": 14,
+  "name": "TEAR",
+  "price": 910.06,
+  "inWatchlist": false
+}, {
+  "id": 15,
+  "name": "MDT",
+  "price": 736.82,
+  "inWatchlist": true
+}, {
+  "id": 16,
+  "name": "HBM",
+  "price": 35.3,
+  "inWatchlist": false
+}, {
+  "id": 17,
+  "name": "INBKL",
+  "price": 671.71,
+  "inWatchlist": false
+}, {
+  "id": 18,
+  "name": "GJS",
+  "price": 95.08,
+  "inWatchlist": false
+}, {
+  "id": 19,
+  "name": "CY",
+  "price": 774.62,
+  "inWatchlist": false
+}, {
+  "id": 20,
+  "name": "FJP",
+  "price": 896.38,
+  "inWatchlist": true
+}, {
+  "id": 21,
+  "name": "TTMI",
+  "price": 389.6,
+  "inWatchlist": false
+}, {
+  "id": 22,
+  "name": "SAM",
+  "price": 228.24,
+  "inWatchlist": false
+}, {
+  "id": 23,
+  "name": "SQNS",
+  "price": 288.87,
+  "inWatchlist": true
+}, {
+  "id": 24,
+  "name": "FMBI",
+  "price": 570.69,
+  "inWatchlist": false
+}, {
+  "id": 25,
+  "name": "RFAP",
+  "price": 648.06,
+  "inWatchlist": false
+}, {
+  "id": 26,
+  "name": "KHC",
+  "price": 217.92,
+  "inWatchlist": true
+}, {
+  "id": 27,
+  "name": "FR",
+  "price": 574.02,
+  "inWatchlist": false
+}, {
+  "id": 28,
+  "name": "AFSI^F",
+  "price": 409.02,
+  "inWatchlist": true
+}, {
+  "id": 29,
+  "name": "CBK",
+  "price": 324.02,
+  "inWatchlist": true
+}, {
+  "id": 30,
+  "name": "ESS",
+  "price": 643.79,
+  "inWatchlist": true
+}]

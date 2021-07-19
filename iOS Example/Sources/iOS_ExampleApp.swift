@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct iOS_ExampleApp: App {
+    
+    @StateObject private var topicData = TopicData()
+    
+    init() {
+        initConnectivityTopic()
+        initStockUpdates(context: self as AnyObject)
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(topicData)
         }
     }
 }

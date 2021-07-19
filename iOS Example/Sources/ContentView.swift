@@ -8,25 +8,68 @@
 import SwiftUI
 import Swafka
 
+
+struct TitleView: View {
+    
+    @EnvironmentObject var topicData: TopicData
+    
+    var body: some View {
+        HStack {
+            CircleImage()
+            VStack(alignment: .leading) {
+                Text("Swafka Demo")
+                    .font(.title)
+                Text("Swafka's stock list!")
+                    .font(.subheadline)
+            }
+            .padding()
+            Spacer()
+        }
+        .padding()
+        ConnectionStatusView(isConnected: $topicData.connectedState)
+    }
+}
+
+struct CircleImage: View {
+    var body: some View {
+        Image("turtlerock")
+            .resizable()
+            .frame(width: 100, height: 100)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.gray, lineWidth: 4))
+            .shadow(radius: 7)
+    }
+}
+
+
 struct SwiftUISwafka: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
-        return Swafka()
+//        return Swafka()
+        print("SwiftUISwafka")
+        print(Swafka.getAllTopics())
+        return UIView()
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
+        
+        
     }
 }
 
 struct ContentView: View {
     var body: some View {
         VStack(alignment: .center) {
-            SwiftUISwafka()
+            TitleView()
+            Spacer()
+            StockList()
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(TopicData())
     }
 }
+
+
