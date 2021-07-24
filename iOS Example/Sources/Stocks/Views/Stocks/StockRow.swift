@@ -12,6 +12,11 @@ struct StockRow: View {
 
     var body: some View {
         HStack {
+            if let image = stock.image {
+                CircleLogoView(urlString: image).padding()
+            } else {
+                CircleLogoView().padding()
+            }
             VStack(alignment: .leading) {
                 Text(stock.name).font(.headline)
                 Text(stock.symbol).font(.footnote)

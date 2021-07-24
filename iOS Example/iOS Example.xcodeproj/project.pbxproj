@@ -7,16 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E8DCC1C26AA8D480014F9EF /* StockDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC1B26AA8D480014F9EF /* StockDetail.swift */; };
+		1E260B0C26AC433A0023009C /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1E260B0B26AC433A0023009C /* SDWebImageSwiftUI */; };
+		1E260B1126AC47D10023009C /* DWAuthenticationRqDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B1026AC47D10023009C /* DWAuthenticationRqDTO.swift */; };
+		1E260B1326AC48210023009C /* DWAuthenticationRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B1226AC48210023009C /* DWAuthenticationRsDTO.swift */; };
+		1E260B1526AC48490023009C /* DWCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B1426AC48490023009C /* DWCredentials.swift */; };
+		1E260B1726AC493D0023009C /* DWInstrumentDetailsRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B1626AC493D0023009C /* DWInstrumentDetailsRsDTO.swift */; };
+		1E260B1926AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B1826AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift */; };
+		1E260B1B26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B1A26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift */; };
+		1E260B2126AC70BA0023009C /* UpdatePriceTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */; };
+		1E260B2326AC717A0023009C /* HasSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2226AC717A0023009C /* HasSymbol.swift */; };
+		1E260B2526AC71C50023009C /* LoadingViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2426AC71C50023009C /* LoadingViewType.swift */; };
+		1E260B2926AC72180023009C /* InitilizationTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2826AC72180023009C /* InitilizationTimer.swift */; };
+		1E260B2B26AC72530023009C /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2A26AC72530023009C /* CircleImage.swift */; };
 		1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */; };
 		1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2026AC3A400014F9EF /* Amount.swift */; };
-		1EB356C626A5179900DF2963 /* StockQuoteTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB356C526A5179900DF2963 /* StockQuoteTopic.swift */; };
+		1E8DCC2626AC3EF20014F9EF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */; };
+		1E8DCC2926AC428F0014F9EF /* CircleLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2826AC428F0014F9EF /* CircleLogoView.swift */; };
 		1EEE498526A310E8003B2853 /* landmarkData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1EEE498426A310E8003B2853 /* landmarkData.json */; };
 		1EEE498726A31110003B2853 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE498626A31110003B2853 /* Landmark.swift */; };
 		1EEE498A26A311DF003B2853 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE498926A311DF003B2853 /* ModelData.swift */; };
 		1EEE499326A31296003B2853 /* LandmarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499226A31296003B2853 /* LandmarkRow.swift */; };
-		1EEE499A26A31478003B2853 /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499826A31478003B2853 /* CircleImage.swift */; };
-		1EEE499B26A31478003B2853 /* ContentViewaaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499926A31478003B2853 /* ContentViewaaa.swift */; };
 		1EEE499D26A3147E003B2853 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499C26A3147E003B2853 /* MapView.swift */; };
 		1EEE499F26A3156F003B2853 /* LandmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499E26A3156F003B2853 /* LandmarkList.swift */; };
 		1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A126A429D8003B2853 /* StockMarketData.swift */; };
@@ -35,16 +45,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1E8DCC1B26AA8D480014F9EF /* StockDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetail.swift; sourceTree = "<group>"; };
+		1E260B1026AC47D10023009C /* DWAuthenticationRqDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWAuthenticationRqDTO.swift; sourceTree = "<group>"; };
+		1E260B1226AC48210023009C /* DWAuthenticationRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWAuthenticationRsDTO.swift; sourceTree = "<group>"; };
+		1E260B1426AC48490023009C /* DWCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWCredentials.swift; sourceTree = "<group>"; };
+		1E260B1626AC493D0023009C /* DWInstrumentDetailsRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWInstrumentDetailsRsDTO.swift; sourceTree = "<group>"; };
+		1E260B1826AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWInstrumentFundamentalsRsDTO.swift; sourceTree = "<group>"; };
+		1E260B1A26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWListAllInstrumentRSDTO.swift; sourceTree = "<group>"; };
+		1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePriceTopic.swift; sourceTree = "<group>"; };
+		1E260B2226AC717A0023009C /* HasSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasSymbol.swift; sourceTree = "<group>"; };
+		1E260B2426AC71C50023009C /* LoadingViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewType.swift; sourceTree = "<group>"; };
+		1E260B2826AC72180023009C /* InitilizationTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitilizationTimer.swift; sourceTree = "<group>"; };
+		1E260B2A26AC72530023009C /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWGetReferentialQuoteRsDTO.swift; sourceTree = "<group>"; };
 		1E8DCC2026AC3A400014F9EF /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
-		1EB356C526A5179900DF2963 /* StockQuoteTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockQuoteTopic.swift; sourceTree = "<group>"; };
+		1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		1E8DCC2826AC428F0014F9EF /* CircleLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleLogoView.swift; sourceTree = "<group>"; };
 		1EEE498426A310E8003B2853 /* landmarkData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = landmarkData.json; sourceTree = "<group>"; };
 		1EEE498626A31110003B2853 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		1EEE498926A311DF003B2853 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		1EEE499226A31296003B2853 /* LandmarkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkRow.swift; sourceTree = "<group>"; };
-		1EEE499826A31478003B2853 /* CircleImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
-		1EEE499926A31478003B2853 /* ContentViewaaa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewaaa.swift; sourceTree = "<group>"; };
 		1EEE499C26A3147E003B2853 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		1EEE499E26A3156F003B2853 /* LandmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkList.swift; sourceTree = "<group>"; };
 		1EEE49A126A429D8003B2853 /* StockMarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockMarketData.swift; sourceTree = "<group>"; };
@@ -68,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E260B0C26AC433A0023009C /* SDWebImageSwiftUI in Frameworks */,
 				D9612A4F2595212E0061CCE1 /* Swafka in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,12 +95,105 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E260B0D26AC47A20023009C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1EEE49A726A42A4F003B2853 /* StockListItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1E260B0E26AC47AA0023009C /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B1026AC47D10023009C /* DWAuthenticationRqDTO.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		1E260B0F26AC47B20023009C /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B1226AC48210023009C /* DWAuthenticationRsDTO.swift */,
+				1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */,
+				1E260B1626AC493D0023009C /* DWInstrumentDetailsRsDTO.swift */,
+				1E260B1826AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift */,
+				1E260B1A26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		1E260B1C26AC6F550023009C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B2726AC71F60023009C /* Utils */,
+				1E260B2626AC71EA0023009C /* Stocks */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1E260B1D26AC6FCD0023009C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B0F26AC47B20023009C /* Response */,
+				1E260B0E26AC47AA0023009C /* Request */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1E260B1E26AC6FDC0023009C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		1E260B1F26AC703A0023009C /* Topics */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */,
+			);
+			path = Topics;
+			sourceTree = "<group>";
+		};
+		1E260B2626AC71EA0023009C /* Stocks */ = {
+			isa = PBXGroup;
+			children = (
+				1EEE49A526A42A27003B2853 /* StockRow.swift */,
+				1EEE49A326A42A17003B2853 /* StockList.swift */,
+			);
+			path = Stocks;
+			sourceTree = "<group>";
+		};
+		1E260B2726AC71F60023009C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B2426AC71C50023009C /* LoadingViewType.swift */,
+				1E260B2826AC72180023009C /* InitilizationTimer.swift */,
+				1E260B2A26AC72530023009C /* CircleImage.swift */,
+				1E8DCC2826AC428F0014F9EF /* CircleLogoView.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		1E8DCC1F26AC3A340014F9EF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				1E8DCC2026AC3A400014F9EF /* Amount.swift */,
+				1E260B1426AC48490023009C /* DWCredentials.swift */,
+				1E260B2226AC717A0023009C /* HasSymbol.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		1E8DCC2726AC3EF70014F9EF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1E260B1E26AC6FDC0023009C /* Utils */,
+				1E260B1D26AC6FCD0023009C /* Models */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		1EEE498826A311CE003B2853 /* Landmarks */ = {
@@ -97,9 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				1EEE499226A31296003B2853 /* LandmarkRow.swift */,
-				1EEE499826A31478003B2853 /* CircleImage.swift */,
 				1EEE499C26A3147E003B2853 /* MapView.swift */,
-				1EEE499926A31478003B2853 /* ContentViewaaa.swift */,
 				1EEE499E26A3156F003B2853 /* LandmarkList.swift */,
 			);
 			name = Views;
@@ -108,15 +219,13 @@
 		1EEE49A026A429BF003B2853 /* Stocks */ = {
 			isa = PBXGroup;
 			children = (
+				1E260B1F26AC703A0023009C /* Topics */,
+				1E260B1C26AC6F550023009C /* Views */,
+				1E260B0D26AC47A20023009C /* Models */,
+				1E8DCC2726AC3EF70014F9EF /* Network */,
 				1E8DCC1F26AC3A340014F9EF /* Utils */,
 				1EEE49A126A429D8003B2853 /* StockMarketData.swift */,
-				1EEE49A326A42A17003B2853 /* StockList.swift */,
-				1EEE49A526A42A27003B2853 /* StockRow.swift */,
-				1EEE49A726A42A4F003B2853 /* StockListItem.swift */,
 				1EEE49A926A42CA3003B2853 /* stockData.json */,
-				1EB356C526A5179900DF2963 /* StockQuoteTopic.swift */,
-				1E8DCC1B26AA8D480014F9EF /* StockDetail.swift */,
-				1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */,
 			);
 			path = Stocks;
 			sourceTree = "<group>";
@@ -205,6 +314,7 @@
 			name = "iOS Example";
 			packageProductDependencies = (
 				D9612A4E2595212E0061CCE1 /* Swafka */,
+				1E260B0B26AC433A0023009C /* SDWebImageSwiftUI */,
 			);
 			productName = "iOS Example";
 			productReference = D97F1F0125951C1A004C7A4E /* iOS Example.app */;
@@ -233,6 +343,9 @@
 				Base,
 			);
 			mainGroup = D97F1EF825951C1A004C7A4E;
+			packageReferences = (
+				1E260B0A26AC433A0023009C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = D97F1F0225951C1A004C7A4E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -264,23 +377,32 @@
 				D97F1F0725951C1A004C7A4E /* ContentView.swift in Sources */,
 				1EEE499D26A3147E003B2853 /* MapView.swift in Sources */,
 				1EEE49A626A42A27003B2853 /* StockRow.swift in Sources */,
-				1E8DCC1C26AA8D480014F9EF /* StockDetail.swift in Sources */,
+				1E260B1B26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift in Sources */,
+				1E260B1526AC48490023009C /* DWCredentials.swift in Sources */,
+				1E260B1726AC493D0023009C /* DWInstrumentDetailsRsDTO.swift in Sources */,
+				1E8DCC2626AC3EF20014F9EF /* HTTPMethod.swift in Sources */,
+				1E260B2926AC72180023009C /* InitilizationTimer.swift in Sources */,
 				1EEE498A26A311DF003B2853 /* ModelData.swift in Sources */,
+				1E260B2126AC70BA0023009C /* UpdatePriceTopic.swift in Sources */,
+				1E260B2326AC717A0023009C /* HasSymbol.swift in Sources */,
 				1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */,
 				1EEE49B326A4713E003B2853 /* ConnectionStatusView.swift in Sources */,
+				1E260B2B26AC72530023009C /* CircleImage.swift in Sources */,
 				1EEE49A426A42A17003B2853 /* StockList.swift in Sources */,
-				1EB356C626A5179900DF2963 /* StockQuoteTopic.swift in Sources */,
-				1EEE499B26A31478003B2853 /* ContentViewaaa.swift in Sources */,
+				1E260B1126AC47D10023009C /* DWAuthenticationRqDTO.swift in Sources */,
+				1E260B2526AC71C50023009C /* LoadingViewType.swift in Sources */,
 				1EEE49AD26A43A70003B2853 /* HeartButton.swift in Sources */,
 				1EEE499F26A3156F003B2853 /* LandmarkList.swift in Sources */,
 				D97F1F0525951C1A004C7A4E /* iOS_ExampleApp.swift in Sources */,
 				1EEE49A826A42A4F003B2853 /* StockListItem.swift in Sources */,
 				1EEE498726A31110003B2853 /* Landmark.swift in Sources */,
+				1E260B1926AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift in Sources */,
 				1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */,
 				1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */,
 				1EEE49B526A4732B003B2853 /* ConnectivityData.swift in Sources */,
 				1EEE499326A31296003B2853 /* LandmarkRow.swift in Sources */,
-				1EEE499A26A31478003B2853 /* CircleImage.swift in Sources */,
+				1E8DCC2926AC428F0014F9EF /* CircleLogoView.swift in Sources */,
+				1E260B1326AC48210023009C /* DWAuthenticationRsDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,7 +590,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		1E260B0A26AC433A0023009C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		1E260B0B26AC433A0023009C /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E260B0A26AC433A0023009C /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
 		D9612A4E2595212E0061CCE1 /* Swafka */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Swafka;

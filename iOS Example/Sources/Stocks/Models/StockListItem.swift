@@ -10,6 +10,7 @@ public struct StockListItem: Hashable, Codable, Identifiable {
     public var close: Double
     public var priorClose: Double
     public var inWatchlist: Bool = false
+    public var image: String?
     
     public var priceChangePercent: Double {
         // If market is open, open param will not be 0

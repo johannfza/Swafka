@@ -6,6 +6,12 @@ public enum Connectivity: Topicable {
     case notConnected
 }
 
+public enum APIType: String, Topicable {
+    case cachedSymbols = "Cache Symbols"
+    case fundamentals = "Fundamentals API"
+    case quotes = "Referencial Quotes API"
+}
+
 public func initConnectivityTopic() {
     let monitor = NWPathMonitor()
     monitor.pathUpdateHandler = { path in

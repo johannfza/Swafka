@@ -15,31 +15,20 @@ struct TitleView: View {
     
     var body: some View {
         HStack {
-            CircleImage()
-            VStack(alignment: .leading) {
-                Text("Swafka Demo")
+            VStack {
+                Text("Top Stocks")
                     .font(.title)
-                Text("Swafka's stock list!")
-                    .font(.subheadline)
             }
             .padding()
             Spacer()
         }
         .padding()
-        ConnectionStatusView(isConnected: $topicData.connectedState)
+//        ConnectionStatusView(isConnected: $topicData.connectedState)
+        LoadingTypeView(loadingType: $topicData.reloadType)
+        APITimerView(secondsElapsed: $topicData.secondsElapsed)
     }
 }
 
-struct CircleImage: View {
-    var body: some View {
-        Image("turtlerock")
-            .resizable()
-            .frame(width: 100, height: 100)
-            .clipShape(Circle())
-            .overlay(Circle().stroke(Color.gray, lineWidth: 4))
-            .shadow(radius: 7)
-    }
-}
 
 struct ContentView: View {
     var body: some View {
@@ -56,5 +45,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView().environmentObject(StockMarketData())
     }
 }
-
 
