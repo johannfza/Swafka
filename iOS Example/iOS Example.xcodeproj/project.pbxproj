@@ -19,6 +19,10 @@
 		1E260B2526AC71C50023009C /* LoadingViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2426AC71C50023009C /* LoadingViewType.swift */; };
 		1E260B2926AC72180023009C /* InitilizationTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2826AC72180023009C /* InitilizationTimer.swift */; };
 		1E260B2B26AC72530023009C /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2A26AC72530023009C /* CircleImage.swift */; };
+		1E48E05026AC82FD00F11C01 /* UseCachedStockList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E04F26AC82FD00F11C01 /* UseCachedStockList.swift */; };
+		1E48E05226AC83C800F11C01 /* UseCachedStockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05126AC83C800F11C01 /* UseCachedStockListView.swift */; };
+		1E48E05426AC863C00F11C01 /* symbols.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E48E05326AC863C00F11C01 /* symbols.json */; };
+		1E48E05626AC93C600F11C01 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05526AC93C600F11C01 /* JSONDecoder.swift */; };
 		1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */; };
 		1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2026AC3A400014F9EF /* Amount.swift */; };
 		1E8DCC2626AC3EF20014F9EF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */; };
@@ -56,6 +60,10 @@
 		1E260B2426AC71C50023009C /* LoadingViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewType.swift; sourceTree = "<group>"; };
 		1E260B2826AC72180023009C /* InitilizationTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitilizationTimer.swift; sourceTree = "<group>"; };
 		1E260B2A26AC72530023009C /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
+		1E48E04F26AC82FD00F11C01 /* UseCachedStockList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCachedStockList.swift; sourceTree = "<group>"; };
+		1E48E05126AC83C800F11C01 /* UseCachedStockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCachedStockListView.swift; sourceTree = "<group>"; };
+		1E48E05326AC863C00F11C01 /* symbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = symbols.json; sourceTree = "<group>"; };
+		1E48E05526AC93C600F11C01 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWGetReferentialQuoteRsDTO.swift; sourceTree = "<group>"; };
 		1E8DCC2026AC3A400014F9EF /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -152,6 +160,7 @@
 		1E260B1F26AC703A0023009C /* Topics */ = {
 			isa = PBXGroup;
 			children = (
+				1E48E04F26AC82FD00F11C01 /* UseCachedStockList.swift */,
 				1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */,
 			);
 			path = Topics;
@@ -173,6 +182,7 @@
 				1E260B2826AC72180023009C /* InitilizationTimer.swift */,
 				1E260B2A26AC72530023009C /* CircleImage.swift */,
 				1E8DCC2826AC428F0014F9EF /* CircleLogoView.swift */,
+				1E48E05126AC83C800F11C01 /* UseCachedStockListView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -183,6 +193,7 @@
 				1E8DCC2026AC3A400014F9EF /* Amount.swift */,
 				1E260B1426AC48490023009C /* DWCredentials.swift */,
 				1E260B2226AC717A0023009C /* HasSymbol.swift */,
+				1E48E05526AC93C600F11C01 /* JSONDecoder.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -226,6 +237,7 @@
 				1E8DCC1F26AC3A340014F9EF /* Utils */,
 				1EEE49A126A429D8003B2853 /* StockMarketData.swift */,
 				1EEE49A926A42CA3003B2853 /* stockData.json */,
+				1E48E05326AC863C00F11C01 /* symbols.json */,
 			);
 			path = Stocks;
 			sourceTree = "<group>";
@@ -363,6 +375,7 @@
 				D97F1F0C25951C1A004C7A4E /* Preview Assets.xcassets in Resources */,
 				D97F1F0925951C1A004C7A4E /* Assets.xcassets in Resources */,
 				1EEE49AA26A42CA3003B2853 /* stockData.json in Resources */,
+				1E48E05426AC863C00F11C01 /* symbols.json in Resources */,
 				1EEE498526A310E8003B2853 /* landmarkData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,7 +390,9 @@
 				D97F1F0725951C1A004C7A4E /* ContentView.swift in Sources */,
 				1EEE499D26A3147E003B2853 /* MapView.swift in Sources */,
 				1EEE49A626A42A27003B2853 /* StockRow.swift in Sources */,
+				1E48E05626AC93C600F11C01 /* JSONDecoder.swift in Sources */,
 				1E260B1B26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift in Sources */,
+				1E48E05226AC83C800F11C01 /* UseCachedStockListView.swift in Sources */,
 				1E260B1526AC48490023009C /* DWCredentials.swift in Sources */,
 				1E260B1726AC493D0023009C /* DWInstrumentDetailsRsDTO.swift in Sources */,
 				1E8DCC2626AC3EF20014F9EF /* HTTPMethod.swift in Sources */,
@@ -399,6 +414,7 @@
 				1E260B1926AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift in Sources */,
 				1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */,
 				1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */,
+				1E48E05026AC82FD00F11C01 /* UseCachedStockList.swift in Sources */,
 				1EEE49B526A4732B003B2853 /* ConnectivityData.swift in Sources */,
 				1EEE499326A31296003B2853 /* LandmarkRow.swift in Sources */,
 				1E8DCC2926AC428F0014F9EF /* CircleLogoView.swift in Sources */,

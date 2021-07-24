@@ -6,8 +6,7 @@ public enum Connectivity: Topicable {
     case notConnected
 }
 
-public enum APIType: String, Topicable {
-    case cachedSymbols = "Cache Symbols"
+public enum ListLoadingType: String, Topicable {
     case fundamentals = "Fundamentals API"
     case quotes = "Referencial Quotes API"
 }

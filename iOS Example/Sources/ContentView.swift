@@ -24,7 +24,8 @@ struct TitleView: View {
         }
         .padding()
 //        ConnectionStatusView(isConnected: $topicData.connectedState)
-        LoadingTypeView(loadingType: $topicData.reloadType)
+        UseCachedStockListView(useCachedList: $topicData.useCachedStockList)
+        LoadingTypeView(loadingType: $topicData.loadingType)
         APITimerView(secondsElapsed: $topicData.secondsElapsed)
     }
 }

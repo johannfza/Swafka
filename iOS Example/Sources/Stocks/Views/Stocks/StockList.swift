@@ -7,28 +7,22 @@ struct StockList: View {
     
     @State private var showWatchlistOnly = false
     
-    var filteredStocks: [StockListItem] {
-        topicData.stocks.filter { stock in
-            (!showWatchlistOnly || stock.inWatchlist)
-        }
-    }
+//    var filteredStocks: [StockListItem] {
+//        topicData.stocks.filter { stock in
+//            (!showWatchlistOnly || stock.inWatchlist)
+//        }
+//    }
     
     var body: some View {
         List {
-            Toggle(isOn: $showWatchlistOnly) {
-                Text("Watchlist only")
-            }
-//            HStack {
-//                Text("Symbol").font(.headline)
-//                Spacer()
-//                Text("Price").font(.headline)
+//            Toggle(isOn: $showWatchlistOnly) {
+//                Text("Watchlist only")
 //            }
-            .padding()
+//            .padding()
             
-            if filteredStocks.count > 0 {
-                ForEach(filteredStocks) { stock in
+            if topicData.stocks.count > 0 {
+                ForEach(Array(zip(topicData.stocks.indices, topicData.stocks)), id: \.0) { index, stock in
                     StockRow(stock: stock)
-                    
                 }
             } else {
                 VStack {

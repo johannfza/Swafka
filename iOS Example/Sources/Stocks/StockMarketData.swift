@@ -1,24 +1,27 @@
 import Foundation
 import Swafka
 import Network
+import Combine
 
 fileprivate let noOfStocksToDisplay = 100
 
 final class StockMarketData: ObservableObject {
     @Published var stocks: [StockListItem] = [StockListItem]()
     
+    private let cached100Symbols = load("symbols.json") as [String]
+    
     @Published var connectedState = false
+    
+    @Published var useCachedStockList = true
     
     @Published var isMarketOpen = true
       
     @Published var secondsElapsed = 0.0
     var timer = Timer()
+
+    var cancellables: [AnyCancellable]? = nil
     
-    var reloadType: APIType = .quotes {
-        didSet {
-            print(reloadType)
-        }
-    }
+    var loadingType: ListLoadingType = .fundamentals
     
     private var credentials = DWCredentials(
         appTypeID: 4,
@@ -28,6 +31,9 @@ final class StockMarketData: ObservableObject {
     )
     
     private func getAllStockSymbols(stocks: [HasSymbol]) -> [String] {
+        if self.useCachedStockList {
+            return cached100Symbols
+        }
         var symbols = [String]()
         stocks.forEach { stock in
             symbols.append(stock.symbol)
@@ -36,40 +42,97 @@ final class StockMarketData: ObservableObject {
     }
     
     init() {
-        authenticateSession() { result in
+        
+        Swafka.shared.subscribe( self as AnyObject, to: ListLoadingType.self, thread: .main) { topic in
+            print("\(topic.rawValue)")
+            self.loadingType = topic
+            self.reloadList()
+        }
+    
+        
+        Swafka.shared.subscribe( self as AnyObject, to: UpdatePriceTopic.self, thread: .main) { topic in
+            if let indexOfStockToUpdate = self.stocks.firstIndex(where: {$0.symbol == topic.symbol }) {
+                self.stocks[indexOfStockToUpdate].ask = topic.ask
+                self.stocks[indexOfStockToUpdate].open = topic.open
+            }
+        }
+    
+        authenticateSession() { [self] result in
             switch result {
             case .success:
+                startAPITimer()
                 print("authenticateSession Succesfully Created!")
-                self.listAllInstruments() { listAllInstrumentsResponse in
-                    switch listAllInstrumentsResponse {
-                    case .success(let instruments):
-                        switch self.reloadType {
-                        case .fundamentals:
-                            self.startAPITimer()
-                            self.loadStocksUsingFundamentalsAPI(instruments: instruments) { _ in
-                                self.stopAPITimer()
-                            }
-                        case .quotes:
-                            self.startAPITimer()
-                            self.loadStocksUsingQuotesAPI(instruments: instruments) { _ in
-                                self.stopAPITimer()
-                            }
-                        case .cachedSymbols:
-                            print("WARNININGIN ")
+                if useCachedStockList && loadingType == .fundamentals {
+                    loadStocksUsingFundamentalsAPI(symbols: cached100Symbols) { _ in
+                        updateStockPrices(symbols: cached100Symbols) { _ in
+                            stopAPITimer()
                         }
-                    case .failure:
-                        print("Error listAllInstruments")
+                    }
+                } else {
+                    listAllInstruments() { listAllInstrumentsResponse in
+                        switch listAllInstrumentsResponse {
+                        case .success(let instruments):
+                            switch loadingType {
+                            case .fundamentals:
+                                loadStocksUsingFundamentalsAPI(instruments: instruments) { _ in
+                                    updateStockPrices(symbols: cached100Symbols) { _ in
+                                        stopAPITimer()
+                                    }
+                                }
+                            case .quotes:
+                                loadStocksUsingQuotesAPI(instruments: instruments) { _ in
+                                    stopAPITimer()
+                                }
+                            }
+                        case .failure:
+                            print("Error listAllInstruments")
+                        }
                     }
                 }
             case .failure:
                 print("Error")
             }
         }
-        
-        Swafka.shared.subscribe( self as AnyObject, to: UpdatePriceTopic.self, thread: .main) { topic in
-            if let indexOfStockToUpdate = self.stocks.firstIndex(where: {$0.symbol == topic.symbol }) {
-                self.stocks[indexOfStockToUpdate].ask = topic.ask
-                self.stocks[indexOfStockToUpdate].open = topic.open
+    }
+    
+    func reloadList() {
+        DispatchQueue.main.async {
+            self.stocks.removeAll()
+        }
+        authenticateSession() { [self] result in
+            switch result {
+            case .success:
+                startAPITimer()
+                print("authenticateSession Succesfully Created!")
+                if useCachedStockList && loadingType == .fundamentals {
+                    loadStocksUsingFundamentalsAPI(symbols: cached100Symbols) { _ in
+                        updateStockPrices(symbols: cached100Symbols) { _ in
+                            stopAPITimer()
+                        }
+                    }
+                } else {
+                    listAllInstruments() { listAllInstrumentsResponse in
+                        switch listAllInstrumentsResponse {
+                        case .success(let instruments):
+                            switch loadingType {
+                            case .fundamentals:
+                                loadStocksUsingFundamentalsAPI(instruments: instruments) { _ in
+                                    updateStockPrices(symbols: cached100Symbols) { _ in
+                                        stopAPITimer()
+                                    }
+                                }
+                            case .quotes:
+                                loadStocksUsingQuotesAPI(instruments: instruments) { _ in
+                                    stopAPITimer()
+                                }
+                            }
+                        case .failure:
+                            print("Error listAllInstruments")
+                        }
+                    }
+                }
+            case .failure:
+                print("Error")
             }
         }
     }
@@ -89,11 +152,9 @@ final class StockMarketData: ObservableObject {
         }
     }
     
-    
-    private func loadStocksUsingFundamentalsAPI(instruments: [DWListAllInstrumentRSDTO], completion: @escaping  (Bool) -> Void) {
+    private func loadStocksUsingFundamentalsAPI(symbols: [String], completion: @escaping  (Bool) -> Void) {
         
         let group = DispatchGroup()
-        let symbols = self.getAllStockSymbols(stocks: instruments)[...noOfStocksToDisplay]
         
         var nStockList = [StockListItem]()
 
@@ -126,14 +187,23 @@ final class StockMarketData: ObservableObject {
         
         group.notify(queue: .main) {
             print("Retrieved \(nStockList.count)/\(symbols.count) with fufficient details")
-            self.stocks = nStockList
+            self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name > rhs.name})
             completion(true)
         }
+        
+    }
 
+    
+    
+    private func loadStocksUsingFundamentalsAPI(instruments: [DWListAllInstrumentRSDTO], completion: @escaping  (Bool) -> Void) {
+        
+        let symbols = Array(self.getAllStockSymbols(stocks: instruments)[...noOfStocksToDisplay])
+        
+        return loadStocksUsingFundamentalsAPI(symbols: symbols, completion: completion)
     }
     
     private func loadStocksUsingQuotesAPI(instruments: [DWListAllInstrumentRSDTO], completion: @escaping  (Bool) -> Void) {
-        self.getStockPrices(count: noOfStocksToDisplay, symbols: self.getAllStockSymbols(stocks: instruments)) { getStockPricesResponse in
+        self.getStockPrices(symbols: Array(self.getAllStockSymbols(stocks: instruments)[...noOfStocksToDisplay])) { getStockPricesResponse in
             switch getStockPricesResponse {
             case .success(let quotes):
                 var nStockList = [StockListItem]()
@@ -154,7 +224,7 @@ final class StockMarketData: ObservableObject {
                     }
                 }
                 DispatchQueue.main.async {
-                    self.stocks = nStockList
+                    self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name > rhs.name})
                 }
             case .failure:
                 print("Error getStockPrices")
@@ -231,9 +301,8 @@ final class StockMarketData: ObservableObject {
         task.resume()
     }
     
-    func getStockPrices(count: Int, symbols: [String], completion: @escaping (Result<[DWGetReferentialQuoteRsDTO], Error>) -> Void) {
-        let symbolsSlice = symbols[...count]
-        let symbolsStr = symbolsSlice.joined(separator: ",")
+    func getStockPrices(symbols: [String], completion: @escaping (Result<[DWGetReferentialQuoteRsDTO], Error>) -> Void) {
+        let symbolsStr = symbols.joined(separator: ",")
         print("symbolsStr", symbolsStr)
         let queryItemSymbols = URLQueryItem(name: "symbols", value: symbolsStr)
         //                let queryItemSymbols = URLQueryItem(name: "symbols", value: "TEST%20z,JAMF,STIP,SHY,FLWS,ARCHS,ARCHC,VCVC")
@@ -263,6 +332,41 @@ final class StockMarketData: ObservableObject {
         task.resume()
         
     }
+    
+    func updateStockPrices(symbols: [String], completion: @escaping (Bool) -> Void) {
+        let symbolsStr = symbols.joined(separator: ",")
+        print("symbolsStr", symbolsStr)
+        let queryItemSymbols = URLQueryItem(name: "symbols", value: symbolsStr)
+        let request = getDWURLRequest(path: "quotes", queryItems: [queryItemSymbols] , httpMethod: .get)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let stockQuotes = try decoder.decode([DWGetReferentialQuoteRsDTO].self, from: data)
+                for stock in stockQuotes {
+                    print(stock)
+                    Swafka.shared.publish(topic: UpdatePriceTopic(symbol: stock.symbol, ask: stock.ask, open: stock.open))
+                }
+                completion(true)
+            } catch let error {
+                print(String(describing: error))
+                completion(false)
+            }
+        })
+        
+        task.resume()
+        
+    }
+    
     
     
     
@@ -386,27 +490,13 @@ final class StockMarketData: ObservableObject {
                 print(data)
                 let stockQuotes = try decoder.decode([DWGetReferentialQuoteRsDTO].self, from: data)
                 
-                for _ in stockQuotes {
-                    //                    Swafka.shared.publish(
-                    //                        topic: StockQuoteTopic(
-                    //                        symbol: quotes.symbol,
-                    //                        bid: quotes.bid,
-                    //                        ask: quotes.ask,
-                    //                        lastTrade: quotes.lastTrade,
-                    //                        change: quotes.change,
-                    //                        open: quotes.open,
-                    //                        high: quotes.high,
-                    //                        low: quotes.low,
-                    //                        close: quotes.close,
-                    //                        priorClose: quotes.priorClose,
-                    //                        volume: quotes.volume ?? 0.00,
-                    //                        marketCondition: quotes.marketCondition ?? "",
-                    //                        dataProvider: quotes.dataProvider ?? ""
-                    //                        )
-                    //                    )
+                for stock in stockQuotes {
+                    print(stock)
+                    Swafka.shared.publish(topic: UpdatePriceTopic(symbol: stock.symbol, ask: stock.ask, open: stock.open))
                 }
-                //                print(stockQuotes)
-                self.updatePrice()
+                if self.isMarketOpen {
+                    self.updatePrice()
+                }
                 
             } catch let error {
                 print(error.localizedDescription)
@@ -417,26 +507,3 @@ final class StockMarketData: ObservableObject {
         
     }
 }
-
-func load<T: Decodable>(_ filename: String) -> T {
-    let data: Data
-    
-    guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
-    else {
-        fatalError("Couldn't find \(filename) in main bundle.")
-    }
-    
-    do {
-        data = try Data(contentsOf: file)
-    } catch {
-        fatalError("Couldn't load \(filename) from main bundle:\n\(error)")
-    }
-    
-    do {
-        let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data)
-    } catch {
-        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
-    }
-}
-

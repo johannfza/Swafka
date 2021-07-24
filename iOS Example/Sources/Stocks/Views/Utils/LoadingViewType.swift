@@ -1,8 +1,9 @@
 import SwiftUI
+import Swafka
 
 struct LoadingTypeView: View {
     
-    @Binding var loadingType: APIType
+    @Binding var loadingType: ListLoadingType
 
     
     var body: some View {
@@ -10,15 +11,12 @@ struct LoadingTypeView: View {
             Text("LoadingType")
                 .font(.headline)
             Spacer()
-            Menu(String(describing: loadingType)) {
+            Menu(loadingType.rawValue) {
                 Button("Use Fundamentals API") {
-                    print("Use Fundamentals API")
+                    Swafka.shared.publish(topic: ListLoadingType.fundamentals)
                 }
                 Button("Use Quotes API") {
-                    print("Use Quotes API")
-                }
-                Button("Use Cached Symbols") {
-                    print("Use Cached Symbols")
+                    Swafka.shared.publish(topic: ListLoadingType.quotes)
                 }
             }
         }

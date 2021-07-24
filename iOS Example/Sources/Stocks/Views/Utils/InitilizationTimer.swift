@@ -7,7 +7,7 @@ struct APITimerView: View {
     
     var body: some View {
         HStack {
-            Text("Timer")
+            Text("Initlialization Time")
                 .font(.headline)
             Spacer()
             Text(String(format: "%.2f", secondsElapsed) + " sec")
