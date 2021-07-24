@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1EB356C626A5179900DF2963 /* StockTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB356C526A5179900DF2963 /* StockTopic.swift */; };
+		1E8DCC1C26AA8D480014F9EF /* StockDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC1B26AA8D480014F9EF /* StockDetail.swift */; };
+		1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */; };
+		1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2026AC3A400014F9EF /* Amount.swift */; };
+		1EB356C626A5179900DF2963 /* StockQuoteTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB356C526A5179900DF2963 /* StockQuoteTopic.swift */; };
 		1EEE498526A310E8003B2853 /* landmarkData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1EEE498426A310E8003B2853 /* landmarkData.json */; };
 		1EEE498726A31110003B2853 /* Landmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE498626A31110003B2853 /* Landmark.swift */; };
 		1EEE498A26A311DF003B2853 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE498926A311DF003B2853 /* ModelData.swift */; };
@@ -16,15 +19,14 @@
 		1EEE499B26A31478003B2853 /* ContentViewaaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499926A31478003B2853 /* ContentViewaaa.swift */; };
 		1EEE499D26A3147E003B2853 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499C26A3147E003B2853 /* MapView.swift */; };
 		1EEE499F26A3156F003B2853 /* LandmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499E26A3156F003B2853 /* LandmarkList.swift */; };
-		1EEE49A226A429D8003B2853 /* TopicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A126A429D8003B2853 /* TopicData.swift */; };
+		1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A126A429D8003B2853 /* StockMarketData.swift */; };
 		1EEE49A426A42A17003B2853 /* StockList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A326A42A17003B2853 /* StockList.swift */; };
 		1EEE49A626A42A27003B2853 /* StockRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A526A42A27003B2853 /* StockRow.swift */; };
-		1EEE49A826A42A4F003B2853 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A726A42A4F003B2853 /* Stock.swift */; };
+		1EEE49A826A42A4F003B2853 /* StockListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A726A42A4F003B2853 /* StockListItem.swift */; };
 		1EEE49AA26A42CA3003B2853 /* stockData.json in Resources */ = {isa = PBXBuildFile; fileRef = 1EEE49A926A42CA3003B2853 /* stockData.json */; };
 		1EEE49AD26A43A70003B2853 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49AC26A43A70003B2853 /* HeartButton.swift */; };
 		1EEE49B326A4713E003B2853 /* ConnectionStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49B226A4713E003B2853 /* ConnectionStatusView.swift */; };
 		1EEE49B526A4732B003B2853 /* ConnectivityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49B426A4732B003B2853 /* ConnectivityData.swift */; };
-		1EEE49B726A47BC4003B2853 /* ManipulatePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49B626A47BC4003B2853 /* ManipulatePrice.swift */; };
 		D9612A4F2595212E0061CCE1 /* Swafka in Frameworks */ = {isa = PBXBuildFile; productRef = D9612A4E2595212E0061CCE1 /* Swafka */; };
 		D97F1F0525951C1A004C7A4E /* iOS_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97F1F0425951C1A004C7A4E /* iOS_ExampleApp.swift */; };
 		D97F1F0725951C1A004C7A4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97F1F0625951C1A004C7A4E /* ContentView.swift */; };
@@ -33,7 +35,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1EB356C526A5179900DF2963 /* StockTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTopic.swift; sourceTree = "<group>"; };
+		1E8DCC1B26AA8D480014F9EF /* StockDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetail.swift; sourceTree = "<group>"; };
+		1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWGetReferentialQuoteRsDTO.swift; sourceTree = "<group>"; };
+		1E8DCC2026AC3A400014F9EF /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
+		1EB356C526A5179900DF2963 /* StockQuoteTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockQuoteTopic.swift; sourceTree = "<group>"; };
 		1EEE498426A310E8003B2853 /* landmarkData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = landmarkData.json; sourceTree = "<group>"; };
 		1EEE498626A31110003B2853 /* Landmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landmark.swift; sourceTree = "<group>"; };
 		1EEE498926A311DF003B2853 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
@@ -42,15 +47,14 @@
 		1EEE499926A31478003B2853 /* ContentViewaaa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewaaa.swift; sourceTree = "<group>"; };
 		1EEE499C26A3147E003B2853 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		1EEE499E26A3156F003B2853 /* LandmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkList.swift; sourceTree = "<group>"; };
-		1EEE49A126A429D8003B2853 /* TopicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicData.swift; sourceTree = "<group>"; };
+		1EEE49A126A429D8003B2853 /* StockMarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockMarketData.swift; sourceTree = "<group>"; };
 		1EEE49A326A42A17003B2853 /* StockList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockList.swift; sourceTree = "<group>"; };
 		1EEE49A526A42A27003B2853 /* StockRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockRow.swift; sourceTree = "<group>"; };
-		1EEE49A726A42A4F003B2853 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		1EEE49A726A42A4F003B2853 /* StockListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListItem.swift; sourceTree = "<group>"; };
 		1EEE49A926A42CA3003B2853 /* stockData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stockData.json; sourceTree = "<group>"; };
 		1EEE49AC26A43A70003B2853 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		1EEE49B226A4713E003B2853 /* ConnectionStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionStatusView.swift; sourceTree = "<group>"; };
 		1EEE49B426A4732B003B2853 /* ConnectivityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityData.swift; sourceTree = "<group>"; };
-		1EEE49B626A47BC4003B2853 /* ManipulatePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManipulatePrice.swift; sourceTree = "<group>"; };
 		D97F1F0125951C1A004C7A4E /* iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97F1F0425951C1A004C7A4E /* iOS_ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_ExampleApp.swift; sourceTree = "<group>"; };
 		D97F1F0625951C1A004C7A4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +75,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E8DCC1F26AC3A340014F9EF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1E8DCC2026AC3A400014F9EF /* Amount.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		1EEE498826A311CE003B2853 /* Landmarks */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,18 +105,20 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		1EEE49A026A429BF003B2853 /* Topics */ = {
+		1EEE49A026A429BF003B2853 /* Stocks */ = {
 			isa = PBXGroup;
 			children = (
-				1EEE49A126A429D8003B2853 /* TopicData.swift */,
+				1E8DCC1F26AC3A340014F9EF /* Utils */,
+				1EEE49A126A429D8003B2853 /* StockMarketData.swift */,
 				1EEE49A326A42A17003B2853 /* StockList.swift */,
 				1EEE49A526A42A27003B2853 /* StockRow.swift */,
-				1EEE49A726A42A4F003B2853 /* Stock.swift */,
+				1EEE49A726A42A4F003B2853 /* StockListItem.swift */,
 				1EEE49A926A42CA3003B2853 /* stockData.json */,
-				1EEE49B626A47BC4003B2853 /* ManipulatePrice.swift */,
-				1EB356C526A5179900DF2963 /* StockTopic.swift */,
+				1EB356C526A5179900DF2963 /* StockQuoteTopic.swift */,
+				1E8DCC1B26AA8D480014F9EF /* StockDetail.swift */,
+				1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */,
 			);
-			path = Topics;
+			path = Stocks;
 			sourceTree = "<group>";
 		};
 		1EEE49AB26A43A62003B2853 /* Components */ = {
@@ -153,7 +167,7 @@
 			children = (
 				1EEE49AF26A46FBF003B2853 /* Connectivity */,
 				1EEE49AB26A43A62003B2853 /* Components */,
-				1EEE49A026A429BF003B2853 /* Topics */,
+				1EEE49A026A429BF003B2853 /* Stocks */,
 				1EEE498B26A3122D003B2853 /* Views */,
 				1EEE498826A311CE003B2853 /* Landmarks */,
 				D97F1F0425951C1A004C7A4E /* iOS_ExampleApp.swift */,
@@ -249,19 +263,21 @@
 			files = (
 				D97F1F0725951C1A004C7A4E /* ContentView.swift in Sources */,
 				1EEE499D26A3147E003B2853 /* MapView.swift in Sources */,
-				1EEE49B726A47BC4003B2853 /* ManipulatePrice.swift in Sources */,
 				1EEE49A626A42A27003B2853 /* StockRow.swift in Sources */,
+				1E8DCC1C26AA8D480014F9EF /* StockDetail.swift in Sources */,
 				1EEE498A26A311DF003B2853 /* ModelData.swift in Sources */,
+				1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */,
 				1EEE49B326A4713E003B2853 /* ConnectionStatusView.swift in Sources */,
 				1EEE49A426A42A17003B2853 /* StockList.swift in Sources */,
-				1EB356C626A5179900DF2963 /* StockTopic.swift in Sources */,
+				1EB356C626A5179900DF2963 /* StockQuoteTopic.swift in Sources */,
 				1EEE499B26A31478003B2853 /* ContentViewaaa.swift in Sources */,
 				1EEE49AD26A43A70003B2853 /* HeartButton.swift in Sources */,
 				1EEE499F26A3156F003B2853 /* LandmarkList.swift in Sources */,
 				D97F1F0525951C1A004C7A4E /* iOS_ExampleApp.swift in Sources */,
-				1EEE49A826A42A4F003B2853 /* Stock.swift in Sources */,
+				1EEE49A826A42A4F003B2853 /* StockListItem.swift in Sources */,
 				1EEE498726A31110003B2853 /* Landmark.swift in Sources */,
-				1EEE49A226A429D8003B2853 /* TopicData.swift in Sources */,
+				1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */,
+				1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */,
 				1EEE49B526A4732B003B2853 /* ConnectivityData.swift in Sources */,
 				1EEE499326A31296003B2853 /* LandmarkRow.swift in Sources */,
 				1EEE499A26A31478003B2853 /* CircleImage.swift in Sources */,

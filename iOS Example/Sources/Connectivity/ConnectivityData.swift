@@ -6,7 +6,6 @@ public enum Connectivity: Topicable {
     case notConnected
 }
 
-
 public func initConnectivityTopic() {
     let monitor = NWPathMonitor()
     monitor.pathUpdateHandler = { path in

@@ -10,11 +10,10 @@ import SwiftUI
 @main
 struct iOS_ExampleApp: App {
     
-    @StateObject private var topicData = TopicData()
+    @StateObject private var topicData = StockMarketData()
     
     init() {
         initConnectivityTopic()
-        initStockUpdates(context: self as AnyObject)
     }
 
     var body: some Scene {

@@ -3,11 +3,11 @@ import Swafka
 
 struct StockList: View {
     
-    @EnvironmentObject var topicData: TopicData
+    @EnvironmentObject var topicData: StockMarketData
     
     @State private var showWatchlistOnly = false
     
-    var filteredStocks: [Stock] {
+    var filteredStocks: [StockListItem] {
         topicData.stocks.filter { stock in
             (!showWatchlistOnly || stock.inWatchlist)
         }
@@ -15,21 +15,25 @@ struct StockList: View {
     
     var body: some View {
         List {
-            MockDataStreamButton(stocks: $topicData.stocks)
-            
             Toggle(isOn: $showWatchlistOnly) {
                 Text("Watchlist only")
             }
-            HStack {
-                Text("Symbol").font(.headline)
-                Spacer()
-                Text("Price").font(.headline)
-            }
+//            HStack {
+//                Text("Symbol").font(.headline)
+//                Spacer()
+//                Text("Price").font(.headline)
+//            }
             .padding()
             
-            ForEach(filteredStocks) { stock in
-                StockRow(stock: stock)
-                
+            if filteredStocks.count > 0 {
+                ForEach(filteredStocks) { stock in
+                    StockRow(stock: stock)
+                    
+                }
+            } else {
+                VStack {
+                    ProgressView()
+                }
             }
         }
     }
@@ -37,20 +41,20 @@ struct StockList: View {
 
 struct StockList_Previews: PreviewProvider {
     static var previews: some View {
-        StockList().environmentObject(TopicData())
+        StockList().environmentObject(StockMarketData())
     }
 }
 
 
 struct MockDataStreamButton: View {
     
-    @Binding var stocks: [Stock]
+    @Binding var stocks: [StockListItem]
     
     var body: some View {
         VStack {
             HStack {
                 Button(action: {
-                    Swafka.shared.publish(topic: ManipulatePrice.increase)
+//                    Swafka.shared.publish(topic: ManipulatePrice.increase)
                 }) {
                     Text("Increase Price")
                         .font(.headline)
@@ -63,7 +67,7 @@ struct MockDataStreamButton: View {
                 
                 Spacer()
                 Button(action: {
-                    Swafka.shared.publish(topic: ManipulatePrice.decrease)
+//                    Swafka.shared.publish(topic: ManipulatePrice.decrease)
                 }) {
                     Text("Decrease Price")
                         .font(.headline)

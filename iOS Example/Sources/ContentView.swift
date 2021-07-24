@@ -11,7 +11,7 @@ import Swafka
 
 struct TitleView: View {
     
-    @EnvironmentObject var topicData: TopicData
+    @EnvironmentObject var topicData: StockMarketData
     
     var body: some View {
         HStack {
@@ -53,7 +53,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(TopicData())
+        ContentView().environmentObject(StockMarketData())
     }
 }
 
