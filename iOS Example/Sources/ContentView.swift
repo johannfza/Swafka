@@ -11,29 +11,38 @@ import Swafka
 
 struct TitleView: View {
     
-    @EnvironmentObject var topicData: StockMarketData
+    @EnvironmentObject var vm: StockMarketDataViewModel
+    
+    @State private var showSettings: Bool = true
     
     var body: some View {
         HStack {
-            VStack {
-                Text("Top Stocks")
-                    .font(.title)
+            Text("Top Stocks")
+                .font(.title)
+                .padding(10)
+            VStack(alignment: .trailing) {
+                ShowSettingsViewToggle(showSettings: $showSettings)
             }
-            .padding()
-            Spacer()
         }
-        .padding()
-//        ConnectionStatusView(isConnected: $topicData.connectedState)
-        UseCachedStockListView(useCachedList: $topicData.useCachedStockList)
-        LoadingTypeView(loadingType: $topicData.loadingType)
-        APITimerView(secondsElapsed: $topicData.secondsElapsed)
+        if showSettings {
+            ToggleView(text: "Do Polling", isSet: $vm.isMarketOpen)
+            ToggleView(text: "Use Delayed", isSet: $vm.useDelayed)
+            ToggleView(text: "Use Cached Stock List", isSet: $vm.useCachedStockList)
+            LoadingTypeView(loadingType: $vm.loadingType)
+            PollingIntervalView(interval: $vm.pollingInterval)
+            TimerView(text: "Initilization Timer", secondsElapsed: $vm.secondsElapsed)
+        }
+        if vm.isMarketOpen {
+            TimerView(text: "Since Last Price Update", secondsElapsed: $vm.secondsElapsedSinceLastUpdate)
+        }
+        SearchBarView(searchText: $vm.searchText)
     }
 }
 
 
 struct ContentView: View {
     var body: some View {
-        VStack(alignment: .center) {
+        VStack {
             TitleView()
             Spacer()
             StockList()
@@ -43,7 +52,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(StockMarketData())
+        ContentView().environmentObject(StockMarketDataViewModel())
     }
 }
 

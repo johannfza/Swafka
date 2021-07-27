@@ -3,10 +3,13 @@ import Swafka
 import Network
 import Combine
 
-fileprivate let noOfStocksToDisplay = 100
+fileprivate let noOfStocksToDisplay = 1000
 
-final class StockMarketData: ObservableObject {
+final class StockMarketDataViewModel: ObservableObject {
+    
     @Published var stocks: [StockListItem] = [StockListItem]()
+    
+    @Published var filteredStocks: [StockListItem] = [StockListItem]()
     
     private let cached100Symbols = load("symbols.json") as [String]
     
@@ -14,12 +17,24 @@ final class StockMarketData: ObservableObject {
     
     @Published var useCachedStockList = true
     
+    @Published var useDelayed: Bool = true
+    
     @Published var isMarketOpen = true
-      
+    
     @Published var secondsElapsed = 0.0
-    var timer = Timer()
-
-    var cancellables: [AnyCancellable]? = nil
+    
+    @Published var secondsElapsedSinceLastUpdate = 0.0
+    
+    @Published var searchText = ""
+    
+    @Published var pollingInterval = 5.0
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    var apiTimer = RepeatingTimer(timeInterval: 0.1)
+    var pricePollingTimer = RepeatingTimer(timeInterval: 0.1)
+    
+    var pollingThread = {}
     
     var loadingType: ListLoadingType = .fundamentals
     
@@ -43,20 +58,78 @@ final class StockMarketData: ObservableObject {
     
     init() {
         
+        addSwafkaSubscribers()
+        
+        addSubscribers()
+        
+        initStockData() { [self] result in
+            $isMarketOpen
+                .combineLatest($pollingInterval)
+                .sink { isMarketOpen, interval in
+                    print("Market is Open: \(isMarketOpen)")
+                    print("Polling Interval: \(interval)")
+                    if result {
+                        if isMarketOpen {
+                            stopPollingPriceUpdates() {}
+                            startPollingPriceUpdates(pollingInterval: interval)
+                        } else {
+                            stopPollingPriceUpdates() {}
+                        }
+                    }
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    func addSubscribers() {
+        
+//        $stocks.sink { stocksFromAPI in
+//            self.filteredStocks = stocksFromAPI
+//        }
+//        .store(in: &cancellables)
+        
+        $searchText
+            .combineLatest($stocks)
+            .map { (text, stocks) -> [StockListItem] in
+                guard !text.isEmpty else {
+                    self.filteredStocks = stocks
+                    return stocks
+                }
+                
+                let lowercaseSearchText = text.lowercased()
+                
+                return self.stocks.filter { stock -> Bool in
+                    return stock.name.lowercased().contains(lowercaseSearchText) ||
+                        stock.symbol.lowercased().contains(lowercaseSearchText)
+                }
+            }
+            .sink { filteredStocks in
+                self.filteredStocks = filteredStocks
+            }
+            .store(in: &cancellables)
+    }
+    
+    func addSwafkaSubscribers() {
+        Swafka.shared.subscribe( self as AnyObject, to: InitTimer.self, thread: .main) { topic in
+            self.secondsElapsed = topic.secondsElapsed
+        }
+        Swafka.shared.subscribe( self as AnyObject, to: PollingInterval.self, thread: .main) { topic in
+            self.pollingInterval = topic.interval
+        }
         Swafka.shared.subscribe( self as AnyObject, to: ListLoadingType.self, thread: .main) { topic in
             print("\(topic.rawValue)")
             self.loadingType = topic
             self.reloadList()
         }
-    
-        
         Swafka.shared.subscribe( self as AnyObject, to: UpdatePriceTopic.self, thread: .main) { topic in
             if let indexOfStockToUpdate = self.stocks.firstIndex(where: {$0.symbol == topic.symbol }) {
                 self.stocks[indexOfStockToUpdate].ask = topic.ask
                 self.stocks[indexOfStockToUpdate].open = topic.open
             }
         }
+    }
     
+    func initStockData(completion: @escaping (Bool) -> Void) {
         authenticateSession() { [self] result in
             switch result {
             case .success:
@@ -66,7 +139,13 @@ final class StockMarketData: ObservableObject {
                     loadStocksUsingFundamentalsAPI(symbols: cached100Symbols) { _ in
                         updateStockPrices(symbols: cached100Symbols) { _ in
                             stopAPITimer()
+                            completion(true)
                         }
+                    }
+                } else if useCachedStockList && loadingType == .quotes {
+                    loadStocksUsingQuotesAPI(symbols: cached100Symbols) { _ in
+                        stopAPITimer()
+                        completion(true)
                     }
                 } else {
                     listAllInstruments() { listAllInstrumentsResponse in
@@ -77,20 +156,24 @@ final class StockMarketData: ObservableObject {
                                 loadStocksUsingFundamentalsAPI(instruments: instruments) { _ in
                                     updateStockPrices(symbols: cached100Symbols) { _ in
                                         stopAPITimer()
+                                        completion(true)
                                     }
                                 }
                             case .quotes:
                                 loadStocksUsingQuotesAPI(instruments: instruments) { _ in
                                     stopAPITimer()
+                                    completion(true)
                                 }
                             }
                         case .failure:
                             print("Error listAllInstruments")
+                            completion(false)
                         }
                     }
                 }
             case .failure:
                 print("Error")
+                completion(false)
             }
         }
     }
@@ -99,65 +182,122 @@ final class StockMarketData: ObservableObject {
         DispatchQueue.main.async {
             self.stocks.removeAll()
         }
-        authenticateSession() { [self] result in
-            switch result {
-            case .success:
-                startAPITimer()
-                print("authenticateSession Succesfully Created!")
-                if useCachedStockList && loadingType == .fundamentals {
-                    loadStocksUsingFundamentalsAPI(symbols: cached100Symbols) { _ in
-                        updateStockPrices(symbols: cached100Symbols) { _ in
-                            stopAPITimer()
-                        }
-                    }
-                } else {
-                    listAllInstruments() { listAllInstrumentsResponse in
-                        switch listAllInstrumentsResponse {
-                        case .success(let instruments):
-                            switch loadingType {
-                            case .fundamentals:
-                                loadStocksUsingFundamentalsAPI(instruments: instruments) { _ in
-                                    updateStockPrices(symbols: cached100Symbols) { _ in
-                                        stopAPITimer()
-                                    }
-                                }
-                            case .quotes:
-                                loadStocksUsingQuotesAPI(instruments: instruments) { _ in
-                                    stopAPITimer()
-                                }
-                            }
-                        case .failure:
-                            print("Error listAllInstruments")
-                        }
-                    }
-                }
-            case .failure:
-                print("Error")
-            }
-        }
+        initStockData() { _ in }
     }
     
     func startAPITimer() {
         DispatchQueue.main.async {
             self.secondsElapsed = 0.0
-            self.timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
-                self.secondsElapsed += 0.01
+        }
+        apiTimer.eventHandler = {
+            DispatchQueue.main.async {
+                self.secondsElapsed += 0.1
+            }
+        }
+        apiTimer.resume()
+//        DispatchQueue.main.async {
+//            self.secondsElapsed = 0.0
+//            self.apiTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+//                self.secondsElapsed += 0.1
+//            }
+////            Swafka.shared.publish(topic: InitTimer.init(secondsElapsed: self.secondsElapsed + 0.1 ))
+//        }
+    }
+    
+    func stopAPITimer() {
+        apiTimer.suspend()
+    }
+    
+    func stopPollingPriceUpdates(completion: @escaping () -> Void) {
+        self.resetPollingTimer() {
+            print("Stop and reset Timer")
+            completion()
+        }
+    }
+    
+    func pollPrice(completion: @escaping () -> Void) {
+        print("Updating Prices...")
+        self.updateStockPrices(symbols: cached100Symbols) { [self] _ in
+            print("Update Complete")
+            if isMarketOpen {
+                startPollingTimer()
+            } else {
+                stopPollingPriceUpdates() {}
+            }
+            completion()
+        }
+    }
+    
+    func startPollingPriceUpdates(pollingInterval: Double) {
+        print("Start Polling")
+        pollPrice {
+            print("Complete Init")
+            self.pollingPriceUpdates(pollingInterval: pollingInterval)
+        }
+    }
+    
+    func pollingPriceUpdates(pollingInterval: Double){
+        
+        var isUpdating = false
+        
+        while isMarketOpen && !isUpdating {
+            if self.secondsElapsedSinceLastUpdate > pollingInterval {
+                isUpdating = true
+                resetPollingTimer() {
+                    self.pollPrice {
+                        isUpdating = false
+                        if !self.isMarketOpen {
+                            return
+                        }
+                        self.pollingPriceUpdates(pollingInterval: pollingInterval)
+                    }
+                }
             }
         }
     }
     
-    func stopAPITimer() {
+    func startPollingTimer() {
         DispatchQueue.main.async {
-            self.timer.invalidate()
+            self.secondsElapsedSinceLastUpdate = 0.0
         }
+        pricePollingTimer.eventHandler = {
+            DispatchQueue.main.async {
+                self.secondsElapsedSinceLastUpdate += 0.1
+            }
+        }
+        pricePollingTimer.resume()
+//        DispatchQueue.main.async {
+//            self.secondsElapsedSinceLastUpdate = 0.0
+//            self.pricePollingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+//                self.secondsElapsedSinceLastUpdate += 0.1
+//
+//            }
+//        }
     }
+    
+    func resetPollingTimer(completion: @escaping () -> Void) {
+        DispatchQueue.main.async {
+            self.secondsElapsedSinceLastUpdate = 0.0
+        }
+        pricePollingTimer.suspend()
+        completion()
+//            self.pricePollingTimer.invalidate()
+//            self.pricePollingTimer = Timer()
+//            self.secondsElapsedSinceLastUpdate = 0.0
+//            completion()
+//        }
+    }
+    
+    //    func stopPollingPriceUpdates() {
+    //
+    //    }
     
     private func loadStocksUsingFundamentalsAPI(symbols: [String], completion: @escaping  (Bool) -> Void) {
         
         let group = DispatchGroup()
         
         var nStockList = [StockListItem]()
-
+        
         for symbol in symbols {
             group.enter()
             getInstrumentFundamentals(symbol: symbol) { response in
@@ -167,16 +307,16 @@ final class StockMarketData: ObservableObject {
                         break
                     }
                     nStockList.append(StockListItem(
-                        id: instrument.id,
-                        name: instrument.name,
-                        symbol: instrument.symbol,
-                        status: instrument.status,
-                        ask: fundamentalDataModel.askPrice ?? 0.00,
-                        open: fundamentalDataModel.openPrice ?? 0.00,
-                        close: instrument.close,
-                        priorClose: instrument.closePrior,
-                        inWatchlist: Bool.random(),
-                        image: instrument.image)
+                                        id: instrument.id,
+                                        name: instrument.name,
+                                        symbol: instrument.symbol,
+                                        status: instrument.status ?? .active,
+                                        ask: fundamentalDataModel.askPrice ?? 0.00,
+                                        open: fundamentalDataModel.openPrice ?? 0.00,
+                                        close: instrument.close,
+                                        priorClose: instrument.closePrior,
+                                        inWatchlist: Bool.random(),
+                                        image: instrument.image)
                     )
                 case .failure:
                     print("Error")
@@ -187,12 +327,12 @@ final class StockMarketData: ObservableObject {
         
         group.notify(queue: .main) {
             print("Retrieved \(nStockList.count)/\(symbols.count) with fufficient details")
-            self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name > rhs.name})
+            self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name < rhs.name})
             completion(true)
         }
         
     }
-
+    
     
     
     private func loadStocksUsingFundamentalsAPI(instruments: [DWListAllInstrumentRSDTO], completion: @escaping  (Bool) -> Void) {
@@ -200,6 +340,34 @@ final class StockMarketData: ObservableObject {
         let symbols = Array(self.getAllStockSymbols(stocks: instruments)[...noOfStocksToDisplay])
         
         return loadStocksUsingFundamentalsAPI(symbols: symbols, completion: completion)
+    }
+    
+    private func loadStocksUsingQuotesAPI(symbols: [String], completion: @escaping  (Bool) -> Void) {
+        self.getStockPrices(symbols: symbols) { getStockPricesResponse in
+            switch getStockPricesResponse {
+            case .success(let quotes):
+                var nStockList = [StockListItem]()
+                for quote in quotes {
+                    nStockList.append(StockListItem(
+                        id: quote.symbol,
+                        name: quote.symbol,
+                        symbol: quote.symbol,
+                        status: .active,
+                        ask: quote.ask,
+                        open: quote.open,
+                        close: quote.close,
+                        priorClose: quote.priorClose,
+                        inWatchlist: Bool.random()
+                        ))
+                }
+                DispatchQueue.main.async {
+                    self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name < rhs.name})
+                }
+            case .failure:
+                print("Error getStockPrices")
+            }
+        }
+        completion(true)
     }
     
     private func loadStocksUsingQuotesAPI(instruments: [DWListAllInstrumentRSDTO], completion: @escaping  (Bool) -> Void) {
@@ -224,7 +392,7 @@ final class StockMarketData: ObservableObject {
                     }
                 }
                 DispatchQueue.main.async {
-                    self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name > rhs.name})
+                    self.stocks = nStockList.sorted(by: {lhs, rhs in  return lhs.name < rhs.name})
                 }
             case .failure:
                 print("Error getStockPrices")
@@ -257,7 +425,7 @@ final class StockMarketData: ObservableObject {
     private func getInstrumentDetails(symbol: String, completion: @escaping (Result<DWInstumentDetailsRsDTO, Error>) -> Void) {
         let request = getDWURLRequest(path: "instruments/\(symbol)", httpMethod: .get)
         let session = URLSession.shared
-        print(request.url)
+//        print(String(describing: request.url))
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
                 return
@@ -268,8 +436,8 @@ final class StockMarketData: ObservableObject {
             do {
                 let decoder = JSONDecoder()
                 let instrumentDetails = try decoder.decode(DWInstumentDetailsRsDTO.self, from: data)
-                print(String(describing: instrumentDetails))
-//                completion(.success(instruments))
+//                print(String(describing: instrumentDetails))
+                //                completion(.success(instruments))
             } catch let error {
                 print(String(describing: error))
             }
@@ -281,7 +449,7 @@ final class StockMarketData: ObservableObject {
         let queryOptions = URLQueryItem(name: "options", value: "Fundamentals")
         let request = getDWURLRequest(path: "instruments/\(symbol)/", queryItems: [queryOptions], httpMethod: .get)
         let session = URLSession.shared
-        print(request.url)
+        print(String(describing: request.url))
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
                 return
@@ -292,7 +460,7 @@ final class StockMarketData: ObservableObject {
             do {
                 let decoder = JSONDecoder()
                 let instrumentFundamentals = try decoder.decode(DWInstrumentFundamentalsRsDTO.self, from: data)
-                print(String(describing: instrumentFundamentals))
+//                print(String(describing: instrumentFundamentals))
                 completion(.success(instrumentFundamentals))
             } catch let error {
                 print(String(describing: error))
@@ -303,13 +471,17 @@ final class StockMarketData: ObservableObject {
     
     func getStockPrices(symbols: [String], completion: @escaping (Result<[DWGetReferentialQuoteRsDTO], Error>) -> Void) {
         let symbolsStr = symbols.joined(separator: ",")
-        print("symbolsStr", symbolsStr)
+//        print("symbolsStr", symbolsStr)
+        let queryItemExchangeOverride = URLQueryItem(name: "exchangeOverride", value: "15MinDelayed")
         let queryItemSymbols = URLQueryItem(name: "symbols", value: symbolsStr)
-        //                let queryItemSymbols = URLQueryItem(name: "symbols", value: "TEST%20z,JAMF,STIP,SHY,FLWS,ARCHS,ARCHC,VCVC")
-        
-        let request = getDWURLRequest(path: "quotes", queryItems: [queryItemSymbols] , httpMethod: .get)
+        var queryItems = [URLQueryItem]()
+        queryItems.append(queryItemSymbols)
+        if useDelayed {
+            queryItems.append(queryItemExchangeOverride)
+        }
+        let request = getDWURLRequest(path: "quotes", queryItems: queryItems , httpMethod: .get)
         let session = URLSession.shared
-        print(request.url)
+        print(String(describing: request.url))
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             
             guard error == nil else {
@@ -335,10 +507,17 @@ final class StockMarketData: ObservableObject {
     
     func updateStockPrices(symbols: [String], completion: @escaping (Bool) -> Void) {
         let symbolsStr = symbols.joined(separator: ",")
-        print("symbolsStr", symbolsStr)
+//        print("symbolsStr", symbolsStr)
+        let queryItemExchangeOverride = URLQueryItem(name: "exchangeOverride", value: "15MinDelayed")
         let queryItemSymbols = URLQueryItem(name: "symbols", value: symbolsStr)
-        let request = getDWURLRequest(path: "quotes", queryItems: [queryItemSymbols] , httpMethod: .get)
+        var queryItems = [URLQueryItem]()
+        queryItems.append(queryItemSymbols)
+        if useDelayed {
+            queryItems.append(queryItemExchangeOverride)
+        }
+        let request = getDWURLRequest(path: "quotes", queryItems: queryItems , httpMethod: .get)
         let session = URLSession.shared
+//        print(String(describing: request.url))
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             
             guard error == nil else {
@@ -353,7 +532,7 @@ final class StockMarketData: ObservableObject {
                 let decoder = JSONDecoder()
                 let stockQuotes = try decoder.decode([DWGetReferentialQuoteRsDTO].self, from: data)
                 for stock in stockQuotes {
-                    print(stock)
+                    //                    print(stock)
                     Swafka.shared.publish(topic: UpdatePriceTopic(symbol: stock.symbol, ask: stock.ask, open: stock.open))
                 }
                 completion(true)
@@ -406,7 +585,7 @@ final class StockMarketData: ObservableObject {
             
             do {
                 let decoder = JSONDecoder()
-                print(data)
+//                print(data)
                 let authenticationResponse = try decoder.decode(DWAuthenticationRsDTO.self, from: data)
                 self.credentials.session = DWSession(
                     userID: authenticationResponse.userID,
@@ -487,11 +666,11 @@ final class StockMarketData: ObservableObject {
             
             do {
                 let decoder = JSONDecoder()
-                print(data)
+//                print(data)
                 let stockQuotes = try decoder.decode([DWGetReferentialQuoteRsDTO].self, from: data)
                 
                 for stock in stockQuotes {
-                    print(stock)
+//                    print(stock)
                     Swafka.shared.publish(topic: UpdatePriceTopic(symbol: stock.symbol, ask: stock.ask, open: stock.open))
                 }
                 if self.isMarketOpen {

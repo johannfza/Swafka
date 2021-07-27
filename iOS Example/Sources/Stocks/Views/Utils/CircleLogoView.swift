@@ -19,6 +19,7 @@ struct CircleLogoView: View {
             .frame(width: 60, height: 60)
             .clipShape(Circle())
             .shadow(radius: 5)
+            .padding(3)
     }
 }
 

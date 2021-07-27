@@ -17,12 +17,21 @@
 		1E260B2126AC70BA0023009C /* UpdatePriceTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */; };
 		1E260B2326AC717A0023009C /* HasSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2226AC717A0023009C /* HasSymbol.swift */; };
 		1E260B2526AC71C50023009C /* LoadingViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2426AC71C50023009C /* LoadingViewType.swift */; };
-		1E260B2926AC72180023009C /* InitilizationTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2826AC72180023009C /* InitilizationTimer.swift */; };
+		1E260B2926AC72180023009C /* InitTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2826AC72180023009C /* InitTimerView.swift */; };
 		1E260B2B26AC72530023009C /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E260B2A26AC72530023009C /* CircleImage.swift */; };
 		1E48E05026AC82FD00F11C01 /* UseCachedStockList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E04F26AC82FD00F11C01 /* UseCachedStockList.swift */; };
 		1E48E05226AC83C800F11C01 /* UseCachedStockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05126AC83C800F11C01 /* UseCachedStockListView.swift */; };
 		1E48E05426AC863C00F11C01 /* symbols.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E48E05326AC863C00F11C01 /* symbols.json */; };
 		1E48E05626AC93C600F11C01 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05526AC93C600F11C01 /* JSONDecoder.swift */; };
+		1E48E05826AD1C1300F11C01 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05726AD1C1300F11C01 /* SearchBarView.swift */; };
+		1E48E05B26AD259000F11C01 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05A26AD259000F11C01 /* UIApplication.swift */; };
+		1E48E05D26AD3F2100F11C01 /* PollingIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05C26AD3F2100F11C01 /* PollingIntervalView.swift */; };
+		1E48E05F26AD3F6B00F11C01 /* PollingInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E05E26AD3F6B00F11C01 /* PollingInterval.swift */; };
+		1E48E06126AD67D800F11C01 /* InitTimerTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E06026AD67D800F11C01 /* InitTimerTopic.swift */; };
+		1E48E06326AD6B3A00F11C01 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E06226AD6B3A00F11C01 /* File.swift */; };
+		1E48E06526AE684C00F11C01 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E06426AE684C00F11C01 /* RepeatingTimer.swift */; };
+		1E48E06726AEC52400F11C01 /* QuoteUpdateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E06626AEC52300F11C01 /* QuoteUpdateType.swift */; };
+		1E48E06926AECFDA00F11C01 /* ShowSettingsViewToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E48E06826AECFDA00F11C01 /* ShowSettingsViewToggle.swift */; };
 		1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */; };
 		1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2026AC3A400014F9EF /* Amount.swift */; };
 		1E8DCC2626AC3EF20014F9EF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */; };
@@ -33,7 +42,7 @@
 		1EEE499326A31296003B2853 /* LandmarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499226A31296003B2853 /* LandmarkRow.swift */; };
 		1EEE499D26A3147E003B2853 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499C26A3147E003B2853 /* MapView.swift */; };
 		1EEE499F26A3156F003B2853 /* LandmarkList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE499E26A3156F003B2853 /* LandmarkList.swift */; };
-		1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A126A429D8003B2853 /* StockMarketData.swift */; };
+		1EEE49A226A429D8003B2853 /* StockMarketDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A126A429D8003B2853 /* StockMarketDataViewModel.swift */; };
 		1EEE49A426A42A17003B2853 /* StockList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A326A42A17003B2853 /* StockList.swift */; };
 		1EEE49A626A42A27003B2853 /* StockRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A526A42A27003B2853 /* StockRow.swift */; };
 		1EEE49A826A42A4F003B2853 /* StockListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEE49A726A42A4F003B2853 /* StockListItem.swift */; };
@@ -58,12 +67,21 @@
 		1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePriceTopic.swift; sourceTree = "<group>"; };
 		1E260B2226AC717A0023009C /* HasSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasSymbol.swift; sourceTree = "<group>"; };
 		1E260B2426AC71C50023009C /* LoadingViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewType.swift; sourceTree = "<group>"; };
-		1E260B2826AC72180023009C /* InitilizationTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitilizationTimer.swift; sourceTree = "<group>"; };
+		1E260B2826AC72180023009C /* InitTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitTimerView.swift; sourceTree = "<group>"; };
 		1E260B2A26AC72530023009C /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		1E48E04F26AC82FD00F11C01 /* UseCachedStockList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCachedStockList.swift; sourceTree = "<group>"; };
 		1E48E05126AC83C800F11C01 /* UseCachedStockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCachedStockListView.swift; sourceTree = "<group>"; };
 		1E48E05326AC863C00F11C01 /* symbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = symbols.json; sourceTree = "<group>"; };
 		1E48E05526AC93C600F11C01 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
+		1E48E05726AD1C1300F11C01 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		1E48E05A26AD259000F11C01 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		1E48E05C26AD3F2100F11C01 /* PollingIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollingIntervalView.swift; sourceTree = "<group>"; };
+		1E48E05E26AD3F6B00F11C01 /* PollingInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollingInterval.swift; sourceTree = "<group>"; };
+		1E48E06026AD67D800F11C01 /* InitTimerTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitTimerTopic.swift; sourceTree = "<group>"; };
+		1E48E06226AD6B3A00F11C01 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		1E48E06426AE684C00F11C01 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
+		1E48E06626AEC52300F11C01 /* QuoteUpdateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteUpdateType.swift; sourceTree = "<group>"; };
+		1E48E06826AECFDA00F11C01 /* ShowSettingsViewToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSettingsViewToggle.swift; sourceTree = "<group>"; };
 		1E8DCC1D26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DWGetReferentialQuoteRsDTO.swift; sourceTree = "<group>"; };
 		1E8DCC2026AC3A400014F9EF /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
 		1E8DCC2526AC3EF20014F9EF /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -74,7 +92,7 @@
 		1EEE499226A31296003B2853 /* LandmarkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkRow.swift; sourceTree = "<group>"; };
 		1EEE499C26A3147E003B2853 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		1EEE499E26A3156F003B2853 /* LandmarkList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarkList.swift; sourceTree = "<group>"; };
-		1EEE49A126A429D8003B2853 /* StockMarketData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockMarketData.swift; sourceTree = "<group>"; };
+		1EEE49A126A429D8003B2853 /* StockMarketDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockMarketDataViewModel.swift; sourceTree = "<group>"; };
 		1EEE49A326A42A17003B2853 /* StockList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockList.swift; sourceTree = "<group>"; };
 		1EEE49A526A42A27003B2853 /* StockRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockRow.swift; sourceTree = "<group>"; };
 		1EEE49A726A42A4F003B2853 /* StockListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListItem.swift; sourceTree = "<group>"; };
@@ -162,6 +180,9 @@
 			children = (
 				1E48E04F26AC82FD00F11C01 /* UseCachedStockList.swift */,
 				1E260B2026AC70BA0023009C /* UpdatePriceTopic.swift */,
+				1E48E05E26AD3F6B00F11C01 /* PollingInterval.swift */,
+				1E48E06026AD67D800F11C01 /* InitTimerTopic.swift */,
+				1E48E06626AEC52300F11C01 /* QuoteUpdateType.swift */,
 			);
 			path = Topics;
 			sourceTree = "<group>";
@@ -178,13 +199,25 @@
 		1E260B2726AC71F60023009C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1E48E06226AD6B3A00F11C01 /* File.swift */,
 				1E260B2426AC71C50023009C /* LoadingViewType.swift */,
-				1E260B2826AC72180023009C /* InitilizationTimer.swift */,
+				1E260B2826AC72180023009C /* InitTimerView.swift */,
 				1E260B2A26AC72530023009C /* CircleImage.swift */,
 				1E8DCC2826AC428F0014F9EF /* CircleLogoView.swift */,
 				1E48E05126AC83C800F11C01 /* UseCachedStockListView.swift */,
+				1E48E05726AD1C1300F11C01 /* SearchBarView.swift */,
+				1E48E05C26AD3F2100F11C01 /* PollingIntervalView.swift */,
+				1E48E06826AECFDA00F11C01 /* ShowSettingsViewToggle.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		1E48E05926AD257F00F11C01 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1E48E05A26AD259000F11C01 /* UIApplication.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		1E8DCC1F26AC3A340014F9EF /* Utils */ = {
@@ -194,6 +227,7 @@
 				1E260B1426AC48490023009C /* DWCredentials.swift */,
 				1E260B2226AC717A0023009C /* HasSymbol.swift */,
 				1E48E05526AC93C600F11C01 /* JSONDecoder.swift */,
+				1E48E06426AE684C00F11C01 /* RepeatingTimer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -235,7 +269,7 @@
 				1E260B0D26AC47A20023009C /* Models */,
 				1E8DCC2726AC3EF70014F9EF /* Network */,
 				1E8DCC1F26AC3A340014F9EF /* Utils */,
-				1EEE49A126A429D8003B2853 /* StockMarketData.swift */,
+				1EEE49A126A429D8003B2853 /* StockMarketDataViewModel.swift */,
 				1EEE49A926A42CA3003B2853 /* stockData.json */,
 				1E48E05326AC863C00F11C01 /* symbols.json */,
 			);
@@ -286,6 +320,7 @@
 		D97F1F0325951C1A004C7A4E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1E48E05926AD257F00F11C01 /* Extensions */,
 				1EEE49AF26A46FBF003B2853 /* Connectivity */,
 				1EEE49AB26A43A62003B2853 /* Components */,
 				1EEE49A026A429BF003B2853 /* Stocks */,
@@ -392,28 +427,37 @@
 				1EEE49A626A42A27003B2853 /* StockRow.swift in Sources */,
 				1E48E05626AC93C600F11C01 /* JSONDecoder.swift in Sources */,
 				1E260B1B26AC6F2B0023009C /* DWListAllInstrumentRSDTO.swift in Sources */,
+				1E48E06726AEC52400F11C01 /* QuoteUpdateType.swift in Sources */,
 				1E48E05226AC83C800F11C01 /* UseCachedStockListView.swift in Sources */,
 				1E260B1526AC48490023009C /* DWCredentials.swift in Sources */,
+				1E48E05826AD1C1300F11C01 /* SearchBarView.swift in Sources */,
 				1E260B1726AC493D0023009C /* DWInstrumentDetailsRsDTO.swift in Sources */,
 				1E8DCC2626AC3EF20014F9EF /* HTTPMethod.swift in Sources */,
-				1E260B2926AC72180023009C /* InitilizationTimer.swift in Sources */,
+				1E48E05F26AD3F6B00F11C01 /* PollingInterval.swift in Sources */,
+				1E260B2926AC72180023009C /* InitTimerView.swift in Sources */,
 				1EEE498A26A311DF003B2853 /* ModelData.swift in Sources */,
 				1E260B2126AC70BA0023009C /* UpdatePriceTopic.swift in Sources */,
 				1E260B2326AC717A0023009C /* HasSymbol.swift in Sources */,
 				1E8DCC1E26AB04220014F9EF /* DWGetReferentialQuoteRsDTO.swift in Sources */,
 				1EEE49B326A4713E003B2853 /* ConnectionStatusView.swift in Sources */,
+				1E48E06326AD6B3A00F11C01 /* File.swift in Sources */,
 				1E260B2B26AC72530023009C /* CircleImage.swift in Sources */,
 				1EEE49A426A42A17003B2853 /* StockList.swift in Sources */,
 				1E260B1126AC47D10023009C /* DWAuthenticationRqDTO.swift in Sources */,
 				1E260B2526AC71C50023009C /* LoadingViewType.swift in Sources */,
 				1EEE49AD26A43A70003B2853 /* HeartButton.swift in Sources */,
 				1EEE499F26A3156F003B2853 /* LandmarkList.swift in Sources */,
+				1E48E06926AECFDA00F11C01 /* ShowSettingsViewToggle.swift in Sources */,
 				D97F1F0525951C1A004C7A4E /* iOS_ExampleApp.swift in Sources */,
 				1EEE49A826A42A4F003B2853 /* StockListItem.swift in Sources */,
 				1EEE498726A31110003B2853 /* Landmark.swift in Sources */,
 				1E260B1926AC4F030023009C /* DWInstrumentFundamentalsRsDTO.swift in Sources */,
+				1E48E06526AE684C00F11C01 /* RepeatingTimer.swift in Sources */,
+				1E48E05D26AD3F2100F11C01 /* PollingIntervalView.swift in Sources */,
 				1E8DCC2126AC3A400014F9EF /* Amount.swift in Sources */,
-				1EEE49A226A429D8003B2853 /* StockMarketData.swift in Sources */,
+				1E48E06126AD67D800F11C01 /* InitTimerTopic.swift in Sources */,
+				1EEE49A226A429D8003B2853 /* StockMarketDataViewModel.swift in Sources */,
+				1E48E05B26AD259000F11C01 /* UIApplication.swift in Sources */,
 				1E48E05026AC82FD00F11C01 /* UseCachedStockList.swift in Sources */,
 				1EEE49B526A4732B003B2853 /* ConnectivityData.swift in Sources */,
 				1EEE499326A31296003B2853 /* LandmarkRow.swift in Sources */,

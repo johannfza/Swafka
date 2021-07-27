@@ -8,18 +8,18 @@ struct LoadingTypeView: View {
     
     var body: some View {
         HStack {
-            Text("LoadingType")
+            Text("Initialization Type")
                 .font(.headline)
             Spacer()
             Menu(loadingType.rawValue) {
                 Button("Use Fundamentals API") {
                     Swafka.shared.publish(topic: ListLoadingType.fundamentals)
-                }
+                }  
                 Button("Use Quotes API") {
                     Swafka.shared.publish(topic: ListLoadingType.quotes)
                 }
             }
         }
-        .padding()
+        .padding(10)
     }
 }

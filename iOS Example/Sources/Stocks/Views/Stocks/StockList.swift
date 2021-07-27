@@ -3,7 +3,7 @@ import Swafka
 
 struct StockList: View {
     
-    @EnvironmentObject var topicData: StockMarketData
+    @EnvironmentObject var topicData: StockMarketDataViewModel
     
     @State private var showWatchlistOnly = false
     
@@ -20,8 +20,8 @@ struct StockList: View {
 //            }
 //            .padding()
             
-            if topicData.stocks.count > 0 {
-                ForEach(Array(zip(topicData.stocks.indices, topicData.stocks)), id: \.0) { index, stock in
+            if topicData.filteredStocks.count > 0 {
+                ForEach(Array(zip(topicData.filteredStocks.indices, topicData.filteredStocks)), id: \.0) { index, stock in
                     StockRow(stock: stock)
                 }
             } else {
@@ -35,7 +35,7 @@ struct StockList: View {
 
 struct StockList_Previews: PreviewProvider {
     static var previews: some View {
-        StockList().environmentObject(StockMarketData())
+        StockList().environmentObject(StockMarketDataViewModel())
     }
 }
 

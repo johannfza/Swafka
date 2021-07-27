@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct iOS_ExampleApp: App {
     
-    @StateObject private var topicData = StockMarketData()
+    @StateObject private var topicData = StockMarketDataViewModel()
     
     init() {
         initConnectivityTopic()

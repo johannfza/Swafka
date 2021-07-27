@@ -3,15 +3,16 @@ import Swafka
 import Network
 
 
-struct UseCachedStockListView: View {
+struct ToggleView: View {
 
-    @Binding var useCachedList: Bool
+    public var text: String
+    @Binding var isSet: Bool
     
     var body: some View {
-        Toggle(isOn: $useCachedList) {
-            Text("Use Cached StockList")
+        Toggle(isOn: $isSet) {
+            Text(text)
         }
-        .padding()
+        .padding(10)
     }
 }
 
