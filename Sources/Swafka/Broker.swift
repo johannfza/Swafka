@@ -21,7 +21,7 @@ class Broker<T: Topicable> {
     }
     private var onActiveConsumers = [Consumer<Topic.Type>]()
     private var onInactiveConsumers = [Consumer<Topic.Type>]()
-
+    
     /// Queues
     private let queue = DispatchQueue(label: "broker_publisher_consumer_queue", qos: .background, attributes: .concurrent)
     private let onActiveQueue = DispatchQueue(label: "broker_onactive_queue", qos: .background, attributes: .concurrent)
@@ -38,7 +38,7 @@ class Broker<T: Topicable> {
     }
     
     // MARK: - Private Functions
-
+    
     /// Gets the latest appende value of the `Log`
     /// - Returns: Latest entry of the `Log`
     func getLastLog() -> Topic? {
