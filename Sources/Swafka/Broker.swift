@@ -1,6 +1,6 @@
 import Foundation
 
-internal class Broker<T: Topicable> {
+class Broker<T: Topicable> {
     
     // MARK: - Types
     typealias Topic = T

@@ -1,6 +1,6 @@
 import Foundation
 
-internal class Cluster {
+class Cluster {
     
     // MARK: - Properties
     private var brokers = [String: Any]()

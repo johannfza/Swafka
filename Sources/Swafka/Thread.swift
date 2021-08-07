@@ -4,7 +4,7 @@ public enum Thread {
     case main
     case background(queue: DispatchQueue?)
     
-    internal var queue: DispatchQueue {
+    var queue: DispatchQueue {
         switch self {
         case .main:
             return .main
