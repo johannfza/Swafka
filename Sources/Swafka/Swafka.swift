@@ -2,6 +2,8 @@ import Foundation
 
 public final class Swafka  {
     
+    public init() {}
+    
     private let queue = DispatchQueue(label: "activte_notification_barrier", qos: .background, attributes: .concurrent)
     
     private var cluster = Cluster()
