@@ -1,13 +1,13 @@
 import XCTest
 @testable import Swafka
 
-final class SwafkaTests: XCTestCase {
+final class ClusterTests: XCTestCase {
     
-    var sut: Swafka!
+    var sut: Cluster!
         
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut =  Swafka()
+        sut =  Cluster()
     }
     
     override func tearDownWithError() throws {
