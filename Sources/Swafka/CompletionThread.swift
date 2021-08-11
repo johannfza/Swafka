@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Thread {
+public enum CompletionThread {
     case main
     case background(queue: DispatchQueue?)
     
