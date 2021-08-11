@@ -8,11 +8,11 @@ public final class Swafka  {
     
     private var cluster = Cluster()
     
-    public func subscribe<T: Topicable>(_ context: AnyObject, thread: Thread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
+    public func subscribe<T: Topicable>(_ context: AnyObject, thread: CompletionThread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
         cluster.subscribe(context, thread: thread, getInitialState: getInitialState, completion: completion)
     }
     
-    public func subscribe<T: Topicable>(_ context: AnyObject, to topic: T.Type, thread: Thread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
+    public func subscribe<T: Topicable>(_ context: AnyObject, to topic: T.Type, thread: CompletionThread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
         cluster.subscribe(context, thread: thread, getInitialState: getInitialState, completion: completion)
     }
     
@@ -28,11 +28,11 @@ public final class Swafka  {
         return cluster.getLastLog(of: topic)
     }
     
-    public func subscribeOnActive<T>(_ context: AnyObject, thread: Thread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
+    public func subscribeOnActive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         cluster.subscribeOnActive(context, thread: thread, completion: completion)
     }
     
-    public func subscribeOnInactive<T>(_ context: AnyObject, thread: Thread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
+    public func subscribeOnInactive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         cluster.subscribeOnInactive(context, thread: thread, completion: completion)
     }
 }

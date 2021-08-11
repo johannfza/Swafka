@@ -17,11 +17,14 @@ final class SwafkaTests: XCTestCase {
     
     // MARK: - Test: subscribe()
     func test_subscribe_whenTopicIsPublished_consumerCompletionCompletes() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
     
@@ -48,24 +51,34 @@ final class SwafkaTests: XCTestCase {
 
     // MARK: - Test: unsubscribe()
     func test_unsubscribe_whenConsumerUnsubscribesAndTopicIsPublished_consumerCompletionDoesNotComplete() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success, "Precondition: Consumer should be successfully subscribed")
         sut.unsubscribe(self, from: TestTopic.self)
         sut.publish(topic: TestTopic.failure)
+        let timeBuffer = XCTestExpectation(description: "Time buffer to make sure not more are updates are made")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            timeBuffer.fulfill()
+        }
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
 
     // MARK: - Test: publish()
     func test_publish_whenBrokerPublishesTopic_consumerCompletionCompletes() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
 
@@ -76,11 +89,14 @@ final class SwafkaTests: XCTestCase {
     }
 
     func test_publish_whenBrokerPublishesTopic_consumerRecievesTopic() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
 

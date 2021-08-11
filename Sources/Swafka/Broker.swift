@@ -12,10 +12,10 @@ class Broker<T: Topicable> {
     private var consumers = [Consumer<Topic>]() {
         didSet {
             if oldValue.count == 0 && consumers.count == 1 {
-                onActive()
+                runCompletionBlockForOnInactiveConsumers()
             }
             if oldValue.count == 1 && consumers.count == 0 {
-                onInactive()
+                runCompletionBlockForOnActiveConsumers()
             }
         }
     }
@@ -56,7 +56,7 @@ class Broker<T: Topicable> {
     }
     
     /// Runs the `completion` block of all the `Consumers` that are in `onInactiveConsumers`
-    private func onActive() {
+    private func runCompletionBlockForOnInactiveConsumers() {
         onActiveQueue.sync {
             onActiveConsumers.forEach {
                 let consumer = $0
@@ -65,14 +65,16 @@ class Broker<T: Topicable> {
                         consumer.completion(Topic.self)
                     }
                 } else {
-                    consumer.completion(Topic.self)
+                    CompletionThread.main.queue.async {
+                        consumer.completion(Topic.self)
+                    }
                 }
             }
         }
     }
     
     /// Runs the `completion` block of all the `Consumers` that are in `onActiveConsumers`
-    private func onInactive() {
+    private func runCompletionBlockForOnActiveConsumers() {
         onInactiveQueue.sync {
             onInactiveConsumers.forEach {
                 let consumer = $0
@@ -81,11 +83,19 @@ class Broker<T: Topicable> {
                         consumer.completion(Topic.self)
                     }
                 } else {
-                    consumer.completion(Topic.self)
+                    CompletionThread.main.queue.async {
+                        consumer.completion(Topic.self)
+                    }
                 }
             }
         }
     }
+    
+    /// Runs the `completion` block of all the `Consumers` that are in `consumers`
+    private func runCompletionBlockForConsumers(topic: Topic) {
+        
+    }
+
     
     // MARK: - Functions
     
@@ -95,10 +105,9 @@ class Broker<T: Topicable> {
     ///   - thread: which thread to run the completion on
     ///   - getInitialState: is the case where the `log` has an entry, should the completion run immediately with the latest `log` entry
     ///   - completion: the completion block of the `Consumer`
-    func subscribe(_ context: AnyObject, thread: Thread? = nil, getInitialState: Bool? = true, completion: @escaping (Topic) -> ()) {
+    func subscribe(_ context: AnyObject, thread: CompletionThread? = nil, getInitialState: Bool? = true, completion: @escaping (Topic) -> ()) {
         queue.async(flags: .barrier) {
             self.consumers.append(Consumer(context: context, thread: thread, completion: completion))
-            print(self.consumers)
         }
         queue.sync {
             if getInitialState ?? false {
@@ -110,7 +119,9 @@ class Broker<T: Topicable> {
                         completion(lastState)
                     }
                 } else {
-                    completion(lastState)
+                    CompletionThread.main.queue.async {
+                        completion(lastState)
+                    }
                 }
             }
         }
@@ -141,8 +152,9 @@ class Broker<T: Topicable> {
                         consumer.completion(topic)
                     }
                 } else {
-                    consumer.completion(topic)
-                    
+                    CompletionThread.main.queue.async {
+                        consumer.completion(topic)
+                    }
                 }
             }
         }
@@ -153,10 +165,9 @@ class Broker<T: Topicable> {
     ///   - context: a reference to the  consumer `self`
     ///   - thread: which thread to run the completion on
     ///   - completion: the completion block of the `Consumer`
-    func subscribeOnActive(_ context: AnyObject, thread: Thread? = nil, completion: @escaping (Topic.Type) -> ()) {
+    func subscribeOnActive(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (Topic.Type) -> ()) {
         onActiveQueue.async(flags: .barrier) {
             self.onActiveConsumers.append(Consumer(context: context, thread: thread, completion: completion))
-            print(self.onActiveConsumers)
         }
     }
     
@@ -165,10 +176,9 @@ class Broker<T: Topicable> {
     ///   - context: a reference to the  consumer `self`
     ///   - thread: which thread to run the completion on
     ///   - completion: the completion block of the `Consumer`
-    func subscribeOnInactive(_ context: AnyObject, thread: Thread? = nil, completion: @escaping (Topic.Type) -> ()) {
+    func subscribeOnInactive(_ context: AnyObject, thread: CompletionThread? = .main, completion: @escaping (Topic.Type) -> ()) {
         onInactiveQueue.async(flags: .barrier) {
             self.onInactiveConsumers.append(Consumer(context: context, thread: thread, completion: completion))
-            print(self.consumers)
         }
     }
 }

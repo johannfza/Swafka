@@ -17,11 +17,14 @@ final class ClusterTests: XCTestCase {
     
     // MARK: - Test: subscribe()
     func test_subscribe_whenTopicIsPublished_consumerCompletionCompletes() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
     
@@ -48,39 +51,41 @@ final class ClusterTests: XCTestCase {
 
     // MARK: - Test: unsubscribe()
     func test_unsubscribe_whenConsumerUnsubscribesAndTopicIsPublished_consumerCompletionDoesNotComplete() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success, "Precondition: Consumer should be successfully subscribed")
         sut.unsubscribe(self, from: TestTopic.self)
         sut.publish(topic: TestTopic.failure)
+        let timeBuffer = XCTestExpectation(description: "Time buffer to make sure not more are updates are made")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            timeBuffer.fulfill()
+        }
+        wait(for: [timeBuffer], timeout: 2)
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
 
     // MARK: - Test: publish()
-    func test_publish_whenBrokerPublishesTopic_consumerCompletionCompletes() {
-        var testTopic: TestTopic? = nil
-        sut.subscribe(self) { (topic: TestTopic) in
-            testTopic = topic
-        }
-        sut.publish(topic: TestTopic.success)
-        XCTAssertEqual(testTopic!, TestTopic.success)
-    }
-
-    func test_publish_whenBrokerPublishesTopic_topisIsAppenedToLog() {
+    func test_publish_whenBrokerPublishesTopic_topicIsAppenedToLog() {
         XCTAssertNil(sut.getLastLog(of: TestTopic.self), "Precondition: Log should contain no entry")
         sut.publish(topic: TestTopic.success)
         XCTAssertNotNil(sut.getLastLog(of: TestTopic.self))
     }
 
     func test_publish_whenBrokerPublishesTopic_consumerRecievesTopic() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         var testTopic: TestTopic? = nil
         sut.subscribe(self) { (topic: TestTopic) in
             testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
         }
         sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
 
