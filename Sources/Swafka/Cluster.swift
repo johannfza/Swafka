@@ -23,7 +23,7 @@ class Cluster {
     }
 
     func publish<T>(topic: T) where T : Topicable {
-        queue.sync {
+        queue.async(flags: .barrier) { [self] in
             let topicName = String(describing: T.self)
             print(topicName)
             guard let broker = brokers[topicName] as? Broker<T> else {

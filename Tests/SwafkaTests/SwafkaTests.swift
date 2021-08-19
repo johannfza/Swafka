@@ -28,6 +28,18 @@ final class SwafkaTests: XCTestCase {
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
     
+//    func test_subscribe_whenNoInitialState_completionDoesNotComplete() {
+//        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
+//        var testTopic: TestTopic? = nil
+//        sut.subscribe(self) { (topic: TestTopic) in
+//            testTopic = topic
+//            expectConsumerCompletionToComplete.fulfill()
+//        }
+//        waiter(<#T##waiter: XCTWaiter##XCTWaiter#>, didTimeoutWithUnfulfilledExpectations: <#T##[XCTestExpectation]#>)
+//        XCTAssertThrowsError(wait(for: [expectConsumerCompletionToComplete], timeout: 2))
+//        XCTAssertNil(testTopic)
+//    }
+    
     func test_subscribe_whenConsumerSibscribesAndTopicHasLog_consumerCompletionIsCompletedWithLog() {
         let expectation = self.expectation(description: "Expecting completion to complete")
         sut.publish(topic: TestTopic.success)
@@ -44,6 +56,39 @@ final class SwafkaTests: XCTestCase {
         sut.publish(topic: TestTopic.success)
         var testTopic: TestTopic? = nil
         sut.subscribe(self, getInitialState: false) { (topic: TestTopic) in
+            testTopic = topic
+        }
+        XCTAssertNil(testTopic)
+    }
+    
+    func test_subscribe_overloaded_whenTopicIsPublished_consumerCompletionCompletes() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
+        var testTopic: TestTopic? = nil
+        sut.subscribe(self, to: TestTopic.self) { topic in
+            testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
+        }
+        sut.publish(topic: TestTopic.success)
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
+        XCTAssertEqual(testTopic!, TestTopic.success)
+    }
+    
+    func test_subscribe_overloaded_whenConsumerSibscribesAndTopicHasLog_consumerCompletionIsCompletedWithLog() {
+        let expectation = self.expectation(description: "Expecting completion to complete")
+        sut.publish(topic: TestTopic.success)
+        var testTopic: TestTopic? = nil
+        sut.subscribe(self, to: TestTopic.self) { topic in
+            testTopic = topic
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+        XCTAssertEqual(testTopic!, TestTopic.success)
+    }
+
+    func test_subscribe_overloaded_whenConsumerSubscribesWithgetInitialStateFalseAndIfLogHasEntry_consumerCompletionDoesNotComplete() {
+        sut.publish(topic: TestTopic.success)
+        var testTopic: TestTopic? = nil
+        sut.subscribe(self, to: TestTopic.self, getInitialState: false) { (topic: TestTopic) in
             testTopic = topic
         }
         XCTAssertNil(testTopic)
@@ -166,4 +211,62 @@ final class SwafkaTests: XCTestCase {
         wait(for: [expectConsumerCompletionToComplete, expectOnInactiveConsumerCompletionToComplete], timeout: 1)
         XCTAssertTrue(testTopic is TestTopic.Type)
     }
+    
+    func test_unsubscribe_whenConsumerUnsubscibesWithoutSubscribing_returnVoid() {
+        XCTAssertNoThrow(sut.unsubscribe(self, from: TestTopic.self))
+    }
+    
+    func test_subscribeOnActive_whenMultipleOnActiveConsumersSubscribe_AllOnActiveConsumerCompletionCompletes() {
+        let expectFirstCompletionToComplete = XCTestExpectation(description: "Expecting first completion to complete")
+        let expectSecondCompletionToComplete = XCTestExpectation(description: "Expecting second completion to complete")
+        var firstOnActiveConsumertestTopic: Any? = nil
+        var secondOnActiveConsumertestTopic: Any? = nil
+        sut.subscribeOnActive(self) { (topicType: TestTopic.Type) in
+            firstOnActiveConsumertestTopic = topicType
+        }
+        sut.subscribeOnActive(self) { (topicType: TestTopic.Type) in
+            secondOnActiveConsumertestTopic = topicType
+        }
+        sut.subscribe(self) { (topic: TestTopic) in
+            XCTAssertEqual(topic, TestTopic.success, "Precondition: First consumer should be successfully subscribed")
+            expectFirstCompletionToComplete.fulfill()
+        }
+        sut.subscribe(self) { (topic: TestTopic) in
+            XCTAssertEqual(topic, TestTopic.success, "Precondition: Second consumer should be successfully subscribed")
+            expectSecondCompletionToComplete.fulfill()
+        }
+        sut.publish(topic: TestTopic.success)
+        wait(for: [expectFirstCompletionToComplete, expectSecondCompletionToComplete], timeout: 1)
+        XCTAssertTrue(firstOnActiveConsumertestTopic is TestTopic.Type)
+        XCTAssertTrue(secondOnActiveConsumertestTopic is TestTopic.Type)
+
+
+    }
+    
+    func test_subscribeOnInactive_whenMultipleOnInactiveConsumersSubscribe_AllOnInactiveConsumerCompletionCompletes() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
+        let expectSecondOnInactiveConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
+        let expectFirstOnInactiveConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
+        var testTopic: Any? = nil
+        sut.subscribeOnInactive(self) { (topicType: TestTopic.Type) in
+            testTopic = topicType
+            expectFirstOnInactiveConsumerCompletionToComplete.fulfill()
+        }
+        sut.subscribeOnInactive(self) { (topicType: TestTopic.Type) in
+            testTopic = topicType
+            expectSecondOnInactiveConsumerCompletionToComplete.fulfill()
+        }
+        sut.subscribe(self) { (topic: TestTopic) in
+            XCTAssertEqual(topic, TestTopic.success, "Precondition: Broker should have consumer")
+            expectConsumerCompletionToComplete.fulfill()
+        }
+        sut.publish(topic: TestTopic.success)
+        sut.unsubscribe(self, from: TestTopic.self)
+        wait(for: [expectConsumerCompletionToComplete, expectFirstOnInactiveConsumerCompletionToComplete, expectSecondOnInactiveConsumerCompletionToComplete], timeout: 1)
+        XCTAssertTrue(testTopic is TestTopic.Type)
+    }
+    //
+    
+    // TODO: Add test for thread test
+    
 }

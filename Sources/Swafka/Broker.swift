@@ -93,8 +93,25 @@ class Broker<T: Topicable> {
     
     /// Runs the `completion` block of all the `Consumers` that are in `consumers`
     private func runCompletionBlockForConsumers(topic: Topic) {
-        
+        queue.sync {
+            consumers.forEach {
+                runCompletionBlock(of: $0, topic: topic)
+            }
+        }
     }
+    
+    private func runCompletionBlock(of consumer: Consumer<Topic>, topic: Topic) {
+        if let completionThread = consumer.thread?.queue {
+            completionThread.async {
+                consumer.completion(topic)
+            }
+        } else {
+            CompletionThread.main.queue.async {
+                consumer.completion(topic)
+            }
+        }
+    }
+
 
     
     // MARK: - Functions
@@ -106,23 +123,16 @@ class Broker<T: Topicable> {
     ///   - getInitialState: is the case where the `log` has an entry, should the completion run immediately with the latest `log` entry
     ///   - completion: the completion block of the `Consumer`
     func subscribe(_ context: AnyObject, thread: CompletionThread? = nil, getInitialState: Bool? = true, completion: @escaping (Topic) -> ()) {
+        let consumer = Consumer(context: context, thread: thread, completion: completion)
         queue.async(flags: .barrier) {
-            self.consumers.append(Consumer(context: context, thread: thread, completion: completion))
+            self.consumers.append(consumer)
         }
         queue.sync {
             if getInitialState ?? false {
                 guard let lastState = log.last else {
                     return
                 }
-                if let completionThread = thread?.queue {
-                    completionThread.async {
-                        completion(lastState)
-                    }
-                } else {
-                    CompletionThread.main.queue.async {
-                        completion(lastState)
-                    }
-                }
+                runCompletionBlock(of: consumer, topic: lastState)
             }
         }
     }
@@ -144,20 +154,7 @@ class Broker<T: Topicable> {
             self.consumers = self.consumers.filter { $0.context != nil } // Remove nil observers
             
         }
-        queue.sync {
-            consumers.forEach {
-                let consumer = $0
-                if let completionThread = consumer.thread?.queue {
-                    completionThread.async {
-                        consumer.completion(topic)
-                    }
-                } else {
-                    CompletionThread.main.queue.async {
-                        consumer.completion(topic)
-                    }
-                }
-            }
-        }
+        runCompletionBlockForConsumers(topic: topic)
     }
     
     /// Subscribes to a notification of when the `consumer` count increase from 0 to 1
