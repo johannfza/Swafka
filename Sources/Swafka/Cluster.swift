@@ -11,7 +11,6 @@ class Cluster {
     func subscribe<T: Topicable>(_ context: AnyObject, thread: CompletionThread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
         queue.async(flags: .barrier) {
             let topicName = String(describing: T.self)
-            print(topicName)
             guard let broker = self.brokers[topicName] as? Broker<T> else {
                 let broker = Broker<T>()
                 broker.subscribe(context, thread: thread, getInitialState: getInitialState, completion: completion)
@@ -25,7 +24,6 @@ class Cluster {
     func publish<T>(topic: T) where T : Topicable {
         queue.async(flags: .barrier) { [self] in
             let topicName = String(describing: T.self)
-            print(topicName)
             guard let broker = brokers[topicName] as? Broker<T> else {
                 brokers[topicName] = Broker(firstEntry: topic)
                 return
@@ -55,7 +53,6 @@ class Cluster {
     func subscribeOnActive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         queue.async(flags: .barrier) {
             let topicName = String(describing: T.self)
-            print(topicName)
             guard let broker = self.brokers[topicName] as? Broker<T> else {
                 let broker = Broker<T>()
                 broker.subscribeOnActive(context, thread: thread, completion: completion)
@@ -69,7 +66,6 @@ class Cluster {
     func subscribeOnInactive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         queue.async(flags: .barrier) {
             let topicName = String(describing: T.self)
-            print(topicName)
             guard let broker = self.brokers[topicName] as? Broker<T> else {
                 let broker = Broker<T>()
                 broker.subscribeOnInactive(context, thread: thread, completion: completion)
@@ -77,6 +73,14 @@ class Cluster {
                 return
             }
             broker.subscribeOnInactive(context, thread: thread, completion: completion)
+        }
+    }
+    
+    func clearLog<T>(topic: T.Type) where T : Topicable {
+        queue.sync {
+            let topicName = String(describing: T.self)
+            guard let broker = self.brokers[topicName] as? Broker<T> else { return }
+            broker.clearLog()
         }
     }
 }

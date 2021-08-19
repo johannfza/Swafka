@@ -178,4 +178,10 @@ class Broker<T: Topicable> {
             self.onInactiveConsumers.append(Consumer(context: context, thread: thread, completion: completion))
         }
     }
+    
+    func clearLog() {
+        queue.async(flags: .barrier) {
+            self.log.removeAll()
+        }
+    }
 }

@@ -47,7 +47,7 @@ final class BrokerTests: XCTestCase {
         XCTAssertEqual(testTopic!, TestTopic.success)
     }
     
-    func test_subscribe_whenConsumerSibscribesAndTopicHasLog_consumerCompletionIsCompletedWithLog() {
+    func test_subscribe_whenConsumerSubscribesAndTopicHasLog_consumerCompletionIsCompletedWithLog() {
         let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
         sut.publish(topic: TestTopic.success)
         XCTAssertNotNil(sut.getLastLog() as TestTopic?, "Precondition: Log should contain one entry")
@@ -233,5 +233,29 @@ final class BrokerTests: XCTestCase {
         wait(for: [expectConsumerCompletionToComplete, expectOnInactiveConsumerCompletionToComplete], timeout: 1)
         XCTAssertTrue(isBackgroundThread!)
         XCTAssertTrue(testTopic is TestTopic.Type)
+    }
+    
+    func test_clearLog_whenConsumerSubscribeAndHasNoLog_initialStateNoLongerProvided() {
+        let expectConsumerCompletionToComplete = XCTestExpectation(description: "Expecting completion to complete")
+        var testTopic: TestTopic? = nil
+        var testTopic2: TestTopic? = nil
+        sut.publish(topic: TestTopic.success)
+        XCTAssertNotNil(sut.getLastLog() as TestTopic?, "Precondition: Log should contain one entry")
+        sut.subscribe(self) { (topic: TestTopic) in
+            testTopic = topic
+            expectConsumerCompletionToComplete.fulfill()
+        }
+        wait(for: [expectConsumerCompletionToComplete], timeout: 1)
+        XCTAssertEqual(testTopic!, TestTopic.success)
+        sut.clearLog()
+        let timeBuffer = XCTestExpectation(description: "Time buffer for initializing with initial market status")
+        sut.subscribe(self) { (topic: TestTopic) in
+            testTopic2 = topic
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            timeBuffer.fulfill()
+        }
+        wait(for: [timeBuffer], timeout: 2)
+        XCTAssertNil(testTopic2)
     }
 }

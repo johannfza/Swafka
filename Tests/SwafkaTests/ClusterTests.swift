@@ -155,4 +155,27 @@ final class ClusterTests: XCTestCase {
         wait(for: [expectConsumerCompletionToComplete, expectOnInactiveConsumerCompletionToComplete], timeout: 1)
         XCTAssertTrue(testTopic is TestTopic.Type)
     }
+    
+    func test_clearLog_whenConsumerSubscribeAndHasNoLog_initialStateNoLongerProvided() {
+        let expectation = self.expectation(description: "Expecting completion to complete")
+        sut.publish(topic: TestTopic.success)
+        var testTopic: TestTopic? = nil
+        var testTopic2: TestTopic? = nil
+        sut.subscribe(self) { (topic: TestTopic) in
+            testTopic = topic
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+        XCTAssertEqual(testTopic!, TestTopic.success)
+        sut.clearLog(topic: TestTopic.self)
+        let timeBuffer = XCTestExpectation(description: "Time buffer for initializing with initial market status")
+        sut.subscribe(self) { (topic: TestTopic) in
+            testTopic2 = topic
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            timeBuffer.fulfill()
+        }
+        wait(for: [timeBuffer], timeout: 2)
+        XCTAssertNil(testTopic2)
+    }
 }

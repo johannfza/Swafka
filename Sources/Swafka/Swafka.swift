@@ -35,4 +35,8 @@ public final class Swafka  {
     public func subscribeOnInactive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         cluster.subscribeOnInactive(context, thread: thread, completion: completion)
     }
+    
+    public func clearLog<T>(topic: T.Type) where T : Topicable {
+        cluster.clearLog(topic: topic)
+    }
 }
