@@ -8,7 +8,7 @@ class Cluster {
     // MARK: - Queue
     private let queue = DispatchQueue(label: "cluster_queue_barrier", qos: .background, attributes: .concurrent)
     
-    func subscribe<T: Topicable>(_ context: AnyObject, thread: CompletionThread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
+    func subscribe<T: Topicable>(_ context: AnyObject, thread: SThread? = nil, getInitialState: Bool = true, completion: @escaping (T) -> ()) {
         queue.async(flags: .barrier) {
             let topicName = String(describing: T.self)
             guard let broker = self.brokers[topicName] as? Broker<T> else {
@@ -50,7 +50,7 @@ class Cluster {
         }
     }
     
-    func subscribeOnActive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
+    func subscribeOnActive<T>(_ context: AnyObject, thread: SThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         queue.async(flags: .barrier) {
             let topicName = String(describing: T.self)
             guard let broker = self.brokers[topicName] as? Broker<T> else {
@@ -63,7 +63,7 @@ class Cluster {
         }
     }
     
-    func subscribeOnInactive<T>(_ context: AnyObject, thread: CompletionThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
+    func subscribeOnInactive<T>(_ context: AnyObject, thread: SThread? = nil, completion: @escaping (T.Type) -> ()) where T : Topicable {
         queue.async(flags: .barrier) {
             let topicName = String(describing: T.self)
             guard let broker = self.brokers[topicName] as? Broker<T> else {
