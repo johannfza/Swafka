@@ -1,6 +1,10 @@
 import Foundation
+import os
 
 class Broker<T: Topicable> {
+    
+    // MARK: - Logger
+    private var logContext = OSLog(subsystem: "swafka", category: "broker")
     
     // MARK: - Types
     typealias Topic = T
@@ -30,7 +34,6 @@ class Broker<T: Topicable> {
     // MARK: - Initlizers
     init() {}
     
-    
     /// Initialise a `Broker` and appends a first `Topic` into the `log`
     /// - Parameter firstEntry: First entry of the `log`
     init(firstEntry: Topic) {
@@ -57,6 +60,7 @@ class Broker<T: Topicable> {
     
     /// Runs the `completion` block of all the `Consumers` that are in `onInactiveConsumers`
     private func runCompletionBlockForOnInactiveConsumers() {
+        os_log("Publishing onInactive %{public}@", log: logContext, type: .info, "\(Topic.self)")
         onActiveQueue.sync {
             onActiveConsumers.forEach {
                 let consumer = $0
@@ -75,6 +79,7 @@ class Broker<T: Topicable> {
     
     /// Runs the `completion` block of all the `Consumers` that are in `onActiveConsumers`
     private func runCompletionBlockForOnActiveConsumers() {
+        os_log("Publishing onActive %{public}@", log: logContext, type: .info, "\(Topic.self)")
         onInactiveQueue.sync {
             onInactiveConsumers.forEach {
                 let consumer = $0
@@ -93,6 +98,7 @@ class Broker<T: Topicable> {
     
     /// Runs the `completion` block of all the `Consumers` that are in `consumers`
     private func runCompletionBlockForConsumers(topic: Topic) {
+        os_log("Publishing %{public}@", log: logContext, type: .info, "\(Topic.self)")
         queue.sync {
             consumers.forEach {
                 runCompletionBlock(of: $0, topic: topic)
@@ -135,6 +141,7 @@ class Broker<T: Topicable> {
                 runCompletionBlock(of: consumer, topic: lastState)
             }
         }
+        os_log("%{public}@ subscibed to %{public}@", log: logContext, type: .info, "\(context)", "\(Topic.self)")
     }
     
     
@@ -145,6 +152,7 @@ class Broker<T: Topicable> {
         queue.async(flags: .barrier) {
             self.consumers = self.consumers.filter { $0.context! !== context }
         }
+        os_log("%{public}@ unsubscribed to %{public}@", log: logContext, type: .info, "\(context)", "\(Topic.self)")
     }
     
     /// Publishes a new `Topic` payload to all `completion` block of all the `Consumers` that are in the `consumers` array
@@ -166,6 +174,7 @@ class Broker<T: Topicable> {
         onActiveQueue.async(flags: .barrier) {
             self.onActiveConsumers.append(Consumer(context: context, thread: thread, completion: completion))
         }
+        os_log("%{public}@ subscribed to %{public}@ onActive", log: logContext, type: .info, "\(context)", "\(Topic.self)")
     }
     
     /// Subscribes to a notification of when the `consumer` count increase from 1 to 0
@@ -177,9 +186,11 @@ class Broker<T: Topicable> {
         onInactiveQueue.async(flags: .barrier) {
             self.onInactiveConsumers.append(Consumer(context: context, thread: thread, completion: completion))
         }
+        os_log("%{public}@ subscribed to %{public}@ onInactive", log: logContext, type: .info, "\(context)", "\(Topic.self)")
     }
     
     func clearLog() {
+        os_log("Clearing log for %{public}@", log: .default, type: .info, "\(Topic.self)")
         queue.async(flags: .barrier) {
             self.log.removeAll()
         }
